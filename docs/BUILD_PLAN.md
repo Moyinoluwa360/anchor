@@ -7,22 +7,22 @@ spec was ambiguous are logged at the bottom.
 Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 
 ## Stage 1 — Foundation
-- [ ] 1.1 Project created (`GIGS/anchor`, bundle `com.anchorapp.anchor`), git init
-- [ ] 1.2 Dependencies in pubspec (riverpod, go_router, drift, google_fonts, flutter_local_notifications, timezone, audioplayers, home_widget, live_activities, path_provider, shared_preferences …)
-- [ ] 1.3 Folder structure: models, data, providers, screens, widgets, services, theme, assets
-- [ ] 1.4 Theme: colour tokens (dark + light), type scale (Space Grotesk / Inter / JetBrains Mono), radii, spacing
-- [ ] 1.5 Life areas: Startup, Cloud Learning, Side Gigs, Health, Personal — icon, label, grey/green tint
-- [ ] 1.6 Drift tables: Goals, Milestones, WeeklyTargets, Tasks, TimeBlocks, FocusSessions, EnergyCheckIns, Reminders (+ BrainDumps, Highlights, Settings/kv)
-- [ ] 1.7 Repositories over Drift
-- [ ] 1.8 Seed data on first launch (4 goals from spec, milestones, targets, tasks, blocks, past done history)
-- [ ] 1.9 go_router shell with 5 tabs
-- [ ] 1.10 Liquid glass bottom bar (blur, tint, hairline, sliding stretchy bubble, lemon icon, label fade, haptic, hide on scroll)
-- [ ] 1.11 Background grain / dot grid
-- [ ] 1.12 Floating streak bubble shell (left edge, draggable, remembers spot, hides on scroll, taps → Done)
-- [ ] 1.13 iOS: min iOS 16.2, Info.plist keys (notifications, background audio, NSSupportsLiveActivities)
-- [ ] 1.14 `codemagic.yaml` iOS → TestFlight with auto build number; widget-extension flag (off)
-- [ ] 1.15 Docs: README (Windows commands), CODEMAGIC_SETUP.md (owner steps)
-- [ ] 1.16 analyze + test green
+- [x] 1.1 Project created (`GIGS/anchor`, bundle `com.anchorapp.anchor`), git init
+- [x] 1.2 Dependencies in pubspec (riverpod, go_router, drift, google_fonts, flutter_local_notifications, timezone, audioplayers, home_widget, live_activities, path_provider, shared_preferences …)
+- [x] 1.3 Folder structure: models, data, providers, screens, widgets, services, theme, assets
+- [x] 1.4 Theme: colour tokens (dark + light), type scale (Space Grotesk / Inter / JetBrains Mono), radii, spacing
+- [x] 1.5 Life areas: Startup, Cloud Learning, Side Gigs, Health, Personal — icon, label, grey/green tint
+- [x] 1.6 Drift tables: Goals, Milestones, WeeklyTargets, Tasks, TimeBlocks, FocusSessions, EnergyCheckIns, Reminders (+ BrainDumps, Highlights, Settings/kv)
+- [x] 1.7 Repositories over Drift
+- [x] 1.8 Seed data on first launch (4 goals from spec, milestones, targets, tasks, blocks, past done history)
+- [x] 1.9 go_router shell with 5 tabs
+- [x] 1.10 Liquid glass bottom bar (blur, tint, hairline, sliding stretchy bubble, lemon icon, label fade, haptic, hide on scroll)
+- [x] 1.11 Background grain / dot grid
+- [~] 1.12 Floating streak bubble shell (left edge, draggable, remembers spot, hides on scroll, taps → Done)
+- [x] 1.13 iOS: min iOS 16.2, Info.plist keys (notifications, background audio, NSSupportsLiveActivities)
+- [x] 1.14 `codemagic.yaml` iOS → TestFlight with auto build number; widget-extension flag (off)
+- [x] 1.15 Docs: README (Windows commands), CODEMAGIC_SETUP.md (owner steps)
+- [x] 1.16 analyze + test green
 
 ## Stage 2 — Now screen and focus timer
 - [ ] 2.1 Card deck (PageView, peeking next card), huge title, tiny first step, monospace countdown
@@ -125,4 +125,20 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 
 ## Decisions (where the spec was ambiguous)
 - Project lives at `GIGS/anchor`, separate from Uniflex, with its own git repo.
-- Bundle id `com.anchorapp.anchor` (change in one place: see CODEMAGIC_SETUP.md).
+- Bundle id `com.anchorapp.anchor`, set in `ios/Flutter/AppConfig.xcconfig`; Dart and
+  codemagic.yaml must match (checked by `tool/check_bundle_id.sh` on every build).
+- Fonts are bundled (assets/google_fonts) and google_fonts runtime fetching is off, so
+  the app makes no network calls.
+- Light theme: pure lemon stays the fill colour (buttons, progress); thin lines and
+  accent text use a deeper lemon (#7E9E00) because #D4FF3A on off-white is unreadable.
+- Gentle streak rules (1.12, logic in `services/streak_service.dart`): one free rest day
+  per Mon–Sun week; other missed days pause the count; after more than 3 paused days in
+  a row the next active day quietly starts a new run (best is kept). Today never counts
+  as missed. The streak bubble shows real data now; the count-up is 400 ms.
+- "AI outfit search system" goal is filed under the Startup life area.
+- Unfinished tasks from earlier days roll forward into today silently (nothing is ever
+  "overdue").
+- Weeks run Monday–Sunday so the Sunday review closes the week.
+- iPhone only, portrait only (no iPad layouts to maintain or screenshot for review).
+- The alarm chime is synthesised (C6–E6–G6, 2.2 s) and bundled as `chime.caf` in the
+  Runner target and `chime.wav` for in-app playback.
