@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../../models/dates.dart';
+import '../../models/enums.dart';
 import '../database.dart';
 
 /// Time blocks on the day dial.
@@ -78,4 +79,26 @@ class PlannerRepository {
       await add(b);
     }
   });
+
+  /// Accepts a suggested plan: removes future focus/break/admin blocks of
+  /// [day] (fixed commitments, rest and anything already started stay), then
+  /// adds [drafts].
+  Future<void> applySuggestion(DateTime day, DateTime now, List<TimeBlocksCompanion> drafts) =>
+      db.transaction(() async {
+        final to = addDays(dayOf(day), 1);
+        final old =
+            await (db.select(_b)..where(
+                  (b) =>
+                      b.startAt.isBiggerOrEqualValue(now) &
+                      b.startAt.isSmallerThanValue(to) &
+                      b.type.isIn([BlockType.focus.name, BlockType.breakTime.name, BlockType.admin.name]),
+                ))
+                .get();
+        for (final b in old) {
+          await delete(b.id);
+        }
+        for (final d in drafts) {
+          await add(d);
+        }
+      });
 }

@@ -96,7 +96,8 @@ abstract final class AppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: c.text,
-        contentTextStyle: TextStyle(color: c.bg, fontWeight: FontWeight.w600),
+        actionTextColor: c.isDark ? Palette.lemonInk : Palette.lemon,
+        contentTextStyle: GoogleFonts.inter(color: c.bg, fontWeight: FontWeight.w600, fontSize: 14),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Radii.chip)),
       ),

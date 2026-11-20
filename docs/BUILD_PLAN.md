@@ -51,18 +51,18 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 3.10 analyze + test green
 
 ## Stage 4 — Today planner
-- [ ] 4.1 24-hour dial CustomPainter: hour ticks, labels, real-time lemon "now" hand
-- [ ] 4.2 Blocks as thick arcs by type
-- [ ] 4.3 Drag on ring to create arc; drag ends to resize; 15-min snap
-- [ ] 4.4 Centre: current block, remaining time, small Start
-- [ ] 4.5 Zoom 24h ↔ 6h window (pinch / double tap)
-- [ ] 4.6 Unscheduled task chips around ring, drag onto ring to schedule
-- [ ] 4.7 Tap arc → edit sheet (label, type, attach task, reminder, start timer, delete)
-- [ ] 4.8 Capacity ring (white → lemon → amber) + gentle overpacked note
-- [ ] 4.9 PlannerService auto-suggest (energy, estimates, priority, breaks) with animated preview, accept/edit
-- [ ] 4.10 Flat timeline toggle
-- [ ] 4.11 Planner unit tests
-- [ ] 4.12 analyze + test green
+- [x] 4.1 24-hour dial CustomPainter: hour ticks, labels, real-time lemon "now" hand
+- [x] 4.2 Blocks as thick arcs by type
+- [x] 4.3 Drag on ring to create arc; drag ends to resize; 15-min snap
+- [x] 4.4 Centre: current block, remaining time, small Start
+- [x] 4.5 Zoom 24h ↔ 6h window (pinch / double tap)
+- [x] 4.6 Unscheduled task chips around ring, drag onto ring to schedule
+- [x] 4.7 Tap arc → edit sheet (label, type, attach task, reminder, start timer, delete)
+- [x] 4.8 Capacity ring (white → lemon → amber) + gentle overpacked note
+- [x] 4.9 PlannerService auto-suggest (energy, estimates, priority, breaks) with animated preview, accept/edit
+- [x] 4.10 Flat timeline toggle
+- [x] 4.11 Planner unit tests
+- [x] 4.12 analyze + test green
 
 ## Stage 5 — Energy check-in and adaptation
 - [ ] 5.1 Check-in UI: energy + mood 1–5, big emoji buttons, optional note (≈10 s)
@@ -168,3 +168,22 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
   "Time Sensitive Notifications" capability on the App ID (CODEMAGIC_SETUP step 2.4).
 - Reminders live behind the bell on Today; notification and quiet-hours controls are a
   sheet (tune icon on Reminders) that the Settings screen will reuse in Stage 8.
+- Dial: midnight at the top, clockwise; 15-minute snapping with a haptic tick per step.
+  Drag on empty ring = new block (opens the block sheet to pick type/task); drag any
+  block end = resize; tap a block = edit sheet (type, times ±15, attach task, 5-min alert,
+  reminder, start timer, delete). Double-tap or pinch toggles a 6-hour window that starts
+  the hour before now. A block crossing midnight (sleep) wraps to the top.
+- Unscheduled chips: up to 4 float in the corners around the ring (long-press and drag to
+  drop; the drop makes a focus block of the task's estimate). More than 4 → "+N more"
+  sheet that can also place a task at the next free slot.
+- Capacity counts focus, admin and fixed time (never breaks or rest) against
+  Settings → healthy hours (default 8): white under 75 %, lemon 75–100 %, amber over, with
+  a gentle line under the dial. Never red.
+- Auto-suggest (`PlannerService.suggest`): from the next quarter hour (not before 08:00)
+  until 21:00, around fixed/rest/already-started blocks. Low energy: easy wins first,
+  ≤25-min blocks, ≤3 h focus. Steady: priority order, ≤50-min blocks, ≤5 h. High: hardest and
+  most important first, ≤90-min blocks, ≤6.5 h. Always within the healthy limit; a break
+  (5/10/15 min) after every focus block. Preview animates in; "Use this plan" replaces
+  only future focus/break/admin blocks.
+- Timeline: drag a block to move, drag its bottom edge to resize (blocks under 40 px are
+  resized from the editor), tap empty space for a new 1-hour block.

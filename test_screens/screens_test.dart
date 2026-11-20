@@ -85,6 +85,28 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false}) asy
     await tester.tap(find.bySemanticsLabel(tabs[i]).last);
     await settle();
     await shot('${i + 1}_${tabs[i].toLowerCase()}');
+    if (tabs[i] == 'Today') {
+      final dial = find.bySemanticsLabel(RegExp('^Day dial'));
+      await tester.tap(dial.last);
+      await tester.pump(const Duration(milliseconds: 60));
+      await tester.tap(dial.last);
+      await settle();
+      await shot('1b_today_zoomed');
+      await tester.tap(dial.last);
+      await tester.pump(const Duration(milliseconds: 60));
+      await tester.tap(dial.last);
+      await settle();
+      await tester.tap(find.bySemanticsLabel('Suggest a plan').last);
+      await settle();
+      await shot('1c_today_suggest');
+      await tester.tap(find.bySemanticsLabel('Not now').last);
+      await settle();
+      await tester.tap(find.bySemanticsLabel('Show timeline').last);
+      await settle();
+      await shot('1d_today_timeline');
+      await tester.tap(find.bySemanticsLabel('Show dial').last);
+      await settle();
+    }
   }
   await tester.pumpWidget(const SizedBox());
   await tester.pump(const Duration(seconds: 1));
