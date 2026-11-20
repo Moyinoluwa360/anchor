@@ -3,6 +3,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/database.dart';
 import '../../models/dates.dart';
@@ -13,10 +14,12 @@ import '../../services/deck_order.dart';
 import '../../services/energy_service.dart';
 import '../../services/timer_logic.dart';
 import '../../services/timer_service.dart';
+import '../../router.dart';
 import '../../theme/tokens.dart';
 import '../../theme/typography.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/check_in_card.dart';
+import '../../widgets/focus_guard_sheet.dart';
 import '../../widgets/glass_bottom_bar.dart';
 import '../../widgets/screen_header.dart';
 import '../../widgets/sheet.dart';
@@ -205,8 +208,15 @@ class _NowScreenState extends ConsumerState<NowScreen> {
         TimerEvent.stoppedEarly => 'Stopped. The minutes you did still count.',
         TimerEvent.none => '',
       };
-      _toast(msg);
-      ref.read(timerProvider.notifier).ackEvent();
+      final service = ref.read(timerProvider.notifier);
+      final brk = ref.read(timerProvider).breakMinutes;
+      service.ackEvent();
+      if (e == TimerEvent.focusDone && ref.read(settingsProvider).distractionPrompt) {
+        // Focus guard: a gentle stop and an optional distraction note.
+        showFocusGuard(context, sessionId: service.lastSessionId, breakMinutes: brk);
+      } else {
+        _toast(msg);
+      }
     });
 
     final allTasks = ref.watch(allTasksProvider).value ?? const <Task>[];
@@ -357,6 +367,11 @@ class _NowScreenState extends ConsumerState<NowScreen> {
                       icon: Icons.add_rounded,
                       label: 'Add task',
                       onTap: () => showTaskEditor(context),
+                    ),
+                    HeaderButton(
+                      icon: Icons.tune_rounded,
+                      label: 'Settings',
+                      onTap: () => context.push(Routes.settings),
                     ),
                   ],
                 ),

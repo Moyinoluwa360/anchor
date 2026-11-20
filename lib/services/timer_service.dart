@@ -35,6 +35,9 @@ final alarmPlayerProvider = Provider<AlarmPlayer>((ref) {
 class TimerService extends Notifier<FocusTimerState> {
   static const _key = 'timer.state';
   Timer? _end;
+
+  /// The focus session that finished most recently (for the focus guard).
+  int? lastSessionId;
   AppLifecycleListener? _life;
 
   DateTime get _now => ref.read(clockProvider)();
@@ -173,6 +176,7 @@ class TimerService extends Notifier<FocusTimerState> {
   Future<void> _closeSession(FocusTimerState s, DateTime at, {required bool completed}) async {
     final id = s.sessionId;
     if (id == null || s.phase != TimerPhase.focus) return;
+    lastSessionId = id;
     await ref
         .read(journalRepoProvider)
         .patchSession(

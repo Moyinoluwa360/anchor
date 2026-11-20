@@ -8,6 +8,7 @@ import '../../providers/ui_providers.dart';
 import '../../router.dart';
 import '../../services/timer_service.dart';
 import '../../theme/tokens.dart';
+import '../../widgets/brain_dump.dart';
 import '../../widgets/glass_bottom_bar.dart';
 import '../../widgets/grain_background.dart';
 import '../../widgets/streak_bubble.dart';
@@ -71,6 +72,7 @@ class _AppShellState extends ConsumerState<AppShell> {
             bottom: 0,
             child: chrome(GlassBottomBar(index: shell.currentIndex, onTap: _go)),
           ),
+          Positioned(right: 18, bottom: CaptureButton.bottom(context), child: chrome(const CaptureButton())),
         ],
       ),
     );

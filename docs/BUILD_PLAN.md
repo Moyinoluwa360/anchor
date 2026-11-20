@@ -100,11 +100,11 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 7.9 analyze + test green
 
 ## Stage 8 — Extras
-- [ ] 8.1 Brain dump quick capture available anywhere + inbox to sort into tasks
-- [ ] 8.2 Focus guard: end-of-block reminder, optional distraction log
-- [ ] 8.3 Settings screen (theme, timer defaults, quiet hours, notification toggles, rest day, healthy hours limit)
-- [ ] 8.4 JSON export (share sheet) + import (with confirm) + round-trip test
-- [ ] 8.5 analyze + test green
+- [x] 8.1 Brain dump quick capture available anywhere + inbox to sort into tasks
+- [x] 8.2 Focus guard: end-of-block reminder, optional distraction log
+- [x] 8.3 Settings screen (theme, timer defaults, quiet hours, notification toggles, rest day, healthy hours limit)
+- [x] 8.4 JSON export (share sheet) + import (with confirm) + round-trip test
+- [x] 8.5 analyze + test green
 
 ## Stage 9 — Widgets and Live Activities (behind flag)
 - [ ] 9.1 App Group id in one place; data pushed via home_widget
@@ -228,3 +228,16 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - Big wins: lemon cards; add one with the trophy button.
 - Trends: focus hours per week (12 weeks) and energy (30 days, 3-day rolling average) as
   soft lines. No axes, no "you missed" statistics.
+- Brain dump: a small glass button bottom-right above the bar on every main screen (tap =
+  capture sheet that stays open for several thoughts; hold = inbox; lemon badge = waiting
+  count). Inbox shows notes in two loose columns: "Make a task" or let it go.
+- Focus guard: when a focus block ends (and Settings → Focus guard is on) a sheet gives the
+  hard-stop break reminder plus optional distraction chips/note, saved on that session.
+- Settings (tune icon on Now): theme (Dark / Light / Match iPhone), default rhythm, focus
+  guard, healthy hours 4–12, free rest day, all notification controls, reminders, inbox,
+  export / import / start fresh, licences.
+- Backup: one versioned JSON (`anchor-backup`, v1) of every table plus settings, shared via
+  the iOS share sheet. Import validates everything first, then replaces all data in one
+  transaction; a bad file changes nothing. "Start fresh" clears the sample data.
+- Swapped `file_picker` for Flutter's official `file_selector` (document picker only), so no
+  photo-library code ships and the only permission is notifications.

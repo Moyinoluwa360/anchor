@@ -111,6 +111,22 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false, bool
   await tester.tap(find.bySemanticsLabel('Stop timer').last);
   await settle();
 
+  await tester.tap(find.bySemanticsLabel('Settings').last);
+  await settle();
+  await shot('0d_settings');
+  await tester.drag(find.byType(CustomScrollView).last, const Offset(0, -900));
+  await settle();
+  await shot('0e_settings_scrolled');
+  await tester.drag(find.byType(CustomScrollView).last, const Offset(0, 2000));
+  await settle();
+  await tester.tap(find.byTooltip('Back'));
+  await settle();
+  await tester.longPress(find.bySemanticsLabel(RegExp('^Brain dump')).last);
+  await settle();
+  await shot('0f_inbox');
+  await tester.tap(find.byTooltip('Back'));
+  await settle();
+
   const tabs = ['Today', 'Week', 'Goals', 'Done'];
   for (var i = 0; i < tabs.length; i++) {
     await tester.tap(find.bySemanticsLabel(tabs[i]).last);

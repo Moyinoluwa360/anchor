@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'screens/done/done_screen.dart';
 import 'screens/goals/goal_detail_screen.dart';
 import 'screens/goals/goals_screen.dart';
+import 'screens/inbox/inbox_screen.dart';
 import 'screens/now/now_screen.dart';
 import 'screens/onboarding/notifications_intro_screen.dart';
 import 'screens/reminders/reminders_screen.dart';
+import 'screens/settings/settings_screen.dart';
 import 'screens/shell/app_shell.dart';
 import 'screens/today/today_screen.dart';
 import 'screens/week/review_screen.dart';
@@ -24,6 +26,8 @@ abstract final class Routes {
   static const done = '/done';
   static const reminders = '/reminders';
   static const review = '/review';
+  static const inbox = '/inbox';
+  static const settings = '/settings';
   static const notificationsIntro = '/welcome/notifications';
 }
 
@@ -85,6 +89,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(path: Routes.reminders, builder: (c, s) => const RemindersScreen()),
+      GoRoute(path: Routes.inbox, builder: (c, s) => const InboxScreen()),
+      GoRoute(path: Routes.settings, builder: (c, s) => const SettingsScreen()),
       GoRoute(
         path: Routes.review,
         pageBuilder: (c, s) => const MaterialPage(fullscreenDialog: true, child: ReviewScreen()),
