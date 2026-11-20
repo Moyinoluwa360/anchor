@@ -89,15 +89,15 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 6.13 analyze + test green
 
 ## Stage 7 — Done and insights
-- [ ] 7.1 Heat map (last ~6 months), tap day → card stack
-- [ ] 7.2 Gentle streak logic (pause not reset, 1 rest day/week, best ever) + tests
-- [ ] 7.3 Streak bubble wired to real data, count-up on open; big streak + best on Done
-- [ ] 7.4 Streaks by life area: current, best, 30-day bar, "On fire", "Needs attention" + one-tap schedule
-- [ ] 7.5 Sunday summary card
-- [ ] 7.6 Done stack scrubber by day/week/month with totals
-- [ ] 7.7 Highlights (big wins) card + mark as highlight
-- [ ] 7.8 Gentle trends: focus hours/week, energy over time (smooth lines)
-- [ ] 7.9 analyze + test green
+- [x] 7.1 Heat map (last ~6 months), tap day → card stack
+- [x] 7.2 Gentle streak logic (pause not reset, 1 rest day/week, best ever) + tests
+- [x] 7.3 Streak bubble wired to real data, count-up on open; big streak + best on Done
+- [x] 7.4 Streaks by life area: current, best, 30-day bar, "On fire", "Needs attention" + one-tap schedule
+- [x] 7.5 Sunday summary card
+- [x] 7.6 Done stack scrubber by day/week/month with totals
+- [x] 7.7 Highlights (big wins) card + mark as highlight
+- [x] 7.8 Gentle trends: focus hours/week, energy over time (smooth lines)
+- [x] 7.9 analyze + test green
 
 ## Stage 8 — Extras
 - [ ] 8.1 Brain dump quick capture available anywhere + inbox to sort into tasks
@@ -216,3 +216,15 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
   milestone timeline: tap to tick, hold to remove, inline add; weekly targets; tasks).
 - Linking: tasks pick a goal and this week's target (narrowed to that goal); targets pick
   a goal and can add tasks for themselves.
+- Done (`services/insights_service.dart`): heat map = last 26 weeks, 5 glow levels
+  (0, 1–2, 3–4, 5–6, 7+ tasks), today outlined; tap a day → swipeable card stack.
+- Area streaks use the same gentle rules per area. "On fire" = longest current streak
+  (ties → most days in 30). "Needs attention" = fewest days in 30, only when it is under half
+  of the best area's; its button opens a 15-minute light task for today. Never red.
+- Sunday summary (Sundays only): most consistent / most neglected area this week, plus one
+  concrete suggestion.
+- Done stack: Day / Week / Month switch; each period is a fanned card pile you can flick
+  through, with tasks finished, focus hours and goals moved in large type.
+- Big wins: lemon cards; add one with the trophy button.
+- Trends: focus hours per week (12 weeks) and energy (30 days, 3-day rolling average) as
+  soft lines. No axes, no "you missed" statistics.

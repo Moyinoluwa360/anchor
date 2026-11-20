@@ -154,6 +154,13 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false, bool
       await settle();
       await shot('2b_week_scrolled');
     }
+    if (tabs[i] == 'Done') {
+      for (var k = 0; k < 3; k++) {
+        await tester.drag(find.byType(CustomScrollView).last, const Offset(0, -620));
+        await settle(4);
+        await shot('4${String.fromCharCode(98 + k)}_done_scrolled');
+      }
+    }
     if (tabs[i] == 'Goals') {
       await settle(6);
       await shot('3a_goals_settled');

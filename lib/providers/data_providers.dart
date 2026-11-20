@@ -71,3 +71,13 @@ final upcomingBlocksProvider = StreamProvider<List<TimeBlock>>((ref) {
 final remindersProvider = StreamProvider<List<Reminder>>(
   (ref) => ref.watch(journalRepoProvider).watchReminders(),
 );
+
+/// Focus sessions for the last ~13 months (trends, done stack totals).
+final allSessionsProvider = StreamProvider<List<FocusSession>>((ref) {
+  final d = ref.watch(todayProvider);
+  return ref.watch(journalRepoProvider).watchSessionsSince(addDays(d, -400));
+});
+
+final highlightsProvider = StreamProvider<List<Highlight>>(
+  (ref) => ref.watch(journalRepoProvider).watchHighlights(),
+);
