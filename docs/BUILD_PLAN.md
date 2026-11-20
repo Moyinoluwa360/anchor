@@ -25,18 +25,18 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 1.16 analyze + test green
 
 ## Stage 2 — Now screen and focus timer
-- [ ] 2.1 Card deck (PageView, peeking next card), huge title, tiny first step, monospace countdown
-- [ ] 2.2 Swipe up = complete (fly-off + haptic), swipe down = snooze
-- [ ] 2.3 Start button (lemon, anchored bottom)
-- [ ] 2.4 TimerService: presets 25/5, 50/10, 90/20, custom; pause/resume/stop; survives app background (wall-clock based)
-- [ ] 2.5 Full-screen timer view with draining CustomPainter ring
-- [ ] 2.6 Focus → break hand-off (hard stop); FocusSession saved
-- [ ] 2.7 Alarm sound asset (chime .caf + .wav), audioplayers playback, strong haptic
-- [ ] 2.8 "Up next" rail (next two blocks) at right edge
-- [ ] 2.9 Stuck? sheet: split into 5-min starter, swap for easier task, 5-min reset break
-- [ ] 2.10 Energy check-in card as first deck card when not done today (placeholder → full in Stage 5)
-- [ ] 2.11 Timer unit tests
-- [ ] 2.12 analyze + test green
+- [x] 2.1 Card deck (PageView, peeking next card), huge title, tiny first step, monospace countdown
+- [x] 2.2 Swipe up = complete (fly-off + haptic), swipe down = snooze
+- [x] 2.3 Start button (lemon, anchored bottom)
+- [x] 2.4 TimerService: presets 25/5, 50/10, 90/20, custom; pause/resume/stop; survives app background (wall-clock based)
+- [x] 2.5 Full-screen timer view with draining CustomPainter ring
+- [x] 2.6 Focus → break hand-off (hard stop); FocusSession saved
+- [x] 2.7 Alarm sound asset (chime .caf + .wav), audioplayers playback, strong haptic
+- [x] 2.8 "Up next" rail (next two blocks) at right edge
+- [x] 2.9 Stuck? sheet: split into 5-min starter, swap for easier task, 5-min reset break
+- [x] 2.10 Energy check-in card as first deck card when not done today (full UI; adaptation logic in Stage 5)
+- [x] 2.11 Timer unit tests
+- [x] 2.12 analyze + test green
 
 ## Stage 3 — Notifications and reminders
 - [ ] 3.1 NotificationService (flutter_local_notifications + timezone), iOS init
@@ -142,3 +142,16 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - iPhone only, portrait only (no iPad layouts to maintain or screenshot for review).
 - The alarm chime is synthesised (C6–E6–G6, 2.2 s) and bundled as `chime.caf` in the
   Runner target and `chime.wav` for in-app playback.
+- Now deck order (`services/deck_order.dart`): task in the block happening now → top 3 →
+  tasks in later blocks → priority; snoozed tasks wait at the back until their time.
+- Swipe down snoozes for 1 hour, or to tomorrow 09:00 if that would pass 21:00. Every
+  complete/snooze has Undo.
+- The card's big countdown shows the time left in its block while that block is running,
+  otherwise the task's estimate.
+- Focus ends → break starts automatically at the exact end time (hard stop). Ending a break
+  early needs a 1.2 s press-and-hold, so rest is protected but not a trap.
+- "Shrink it" runs a 5-minute focus with no break, then returns to the deck.
+- The bar and streak bubble fade out while the full-screen timer is showing.
+- Smallest supported screen is iPhone SE (375×667); the shell smoke test runs at that size.
+- Emoji in the check-in render on iPhone; the Windows screenshot renderer shows them as
+  boxes (test-only).

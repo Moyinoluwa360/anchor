@@ -33,9 +33,9 @@ void main() {
   test('today has open tasks with tiny first steps and blocks', () async {
     final db = memoryDb();
     await Seeder(db, now: now).seed();
-    final open = await (db.select(db.tasks)
-          ..where((t) => t.scheduledDate.equals(today(now)) & t.status.equals(TaskStatus.todo.name)))
-        .get();
+    final open = await (db.select(
+      db.tasks,
+    )..where((t) => t.scheduledDate.equals(today(now)) & t.status.equals(TaskStatus.todo.name))).get();
     expect(open.length, greaterThanOrEqualTo(6));
     expect(open.where((t) => t.firstStep != null).length, greaterThanOrEqualTo(6));
     expect(await db.timeBlocks.count().getSingle(), greaterThanOrEqualTo(8));

@@ -13,12 +13,21 @@ class WeekScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.c;
-    return CustomScrollView(slivers: [
-      const SliverToBoxAdapter(child: ScreenHeader(title: 'Week')),
-      SliverPadding(
-        padding: EdgeInsets.fromLTRB(Space.gutter, Space.xl, Space.gutter, GlassBottomBar.reserved(context)),
-        sliver: SliverToBoxAdapter(child: Text('The bento board lands in Stage 6.', style: T.body(c.textDim))),
-      ),
-    ]);
+    return CustomScrollView(
+      slivers: [
+        const SliverToBoxAdapter(child: ScreenHeader(title: 'Week')),
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            Space.gutter,
+            Space.xl,
+            Space.gutter,
+            GlassBottomBar.reserved(context),
+          ),
+          sliver: SliverToBoxAdapter(
+            child: Text('The bento board lands in Stage 6.', style: T.body(c.textDim)),
+          ),
+        ),
+      ],
+    );
   }
 }

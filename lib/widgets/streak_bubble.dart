@@ -75,17 +75,24 @@ class _StreakBubbleState extends ConsumerState<StreakBubble> {
               radius: 22,
               blur: 16,
               padding: const EdgeInsets.fromLTRB(10, 7, 12, 7),
-              child: Row(mainAxisSize: MainAxisSize.min, children: [
-                Icon(Icons.local_fire_department_rounded,
-                    size: 18, color: streak.paused ? c.textDim : accent),
-                const SizedBox(width: 4),
-                TweenAnimationBuilder<double>(
-                  tween: Tween(begin: countFrom.toDouble(), end: streak.current.toDouble()),
-                  duration: context.motion(const Duration(milliseconds: 400)),
-                  curve: Curves.easeOutCubic,
-                  builder: (_, v, _) => Text('${v.round()}', style: T.mono(accent, size: 15, w: FontWeight.w700)),
-                ),
-              ]),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.local_fire_department_rounded,
+                    size: 18,
+                    color: streak.paused ? c.textDim : accent,
+                  ),
+                  const SizedBox(width: 4),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: countFrom.toDouble(), end: streak.current.toDouble()),
+                    duration: context.motion(const Duration(milliseconds: 400)),
+                    curve: Curves.easeOutCubic,
+                    builder: (_, v, _) =>
+                        Text('${v.round()}', style: T.mono(accent, size: 15, w: FontWeight.w700)),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -10,10 +10,7 @@ class GrainBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.c;
     return RepaintBoundary(
-      child: CustomPaint(
-        painter: _DotGridPainter(c.grain, c.bg),
-        size: Size.infinite,
-      ),
+      child: CustomPaint(painter: _DotGridPainter(c.grain, c.bg), size: Size.infinite),
     );
   }
 }

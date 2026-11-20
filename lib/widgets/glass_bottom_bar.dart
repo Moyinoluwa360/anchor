@@ -49,8 +49,10 @@ class GlassBottomBar extends ConsumerStatefulWidget {
 }
 
 class _GlassBottomBarState extends ConsumerState<GlassBottomBar> with SingleTickerProviderStateMixin {
-  late final AnimationController _pos =
-      AnimationController.unbounded(vsync: this, value: widget.index.toDouble());
+  late final AnimationController _pos = AnimationController.unbounded(
+    vsync: this,
+    value: widget.index.toDouble(),
+  );
 
   static const _spring = SpringDescription(mass: 1, stiffness: 380, damping: 26);
 
@@ -98,65 +100,69 @@ class _GlassBottomBarState extends ConsumerState<GlassBottomBar> with SingleTick
               height: kBarHeight,
               child: Glass(
                 radius: kBarHeight / 2,
-                child: LayoutBuilder(builder: (context, box) {
-                  const inset = 5.0;
-                  final slotW = (box.maxWidth - inset * 2) / barItems.length;
-                  return Stack(children: [
-                    AnimatedBuilder(
-                      animation: _pos,
-                      builder: (context, _) {
-                        final v = _pos.velocity;
-                        final stretch = (v.abs() * 0.045).clamp(0.0, 0.38);
-                        final w = (slotW - 4) * (1 + stretch);
-                        final h = (kBarHeight - inset * 2) * (1 - stretch * 0.22);
-                        final lead = v.sign * stretch * slotW * 0.18;
-                        final left = inset + _pos.value * slotW + (slotW - w) / 2 + lead;
-                        return Positioned(
-                          left: left,
-                          top: (kBarHeight - h) / 2,
-                          width: w,
-                          height: h,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(h / 2),
-                              color: c.isDark
-                                  ? Colors.white.withValues(alpha: 0.12)
-                                  : Colors.black.withValues(alpha: 0.06),
-                              border: Border.all(color: c.glassBorder, width: 0.6),
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white.withValues(alpha: c.isDark ? 0.14 : 0.5),
-                                  Colors.white.withValues(alpha: 0),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    Row(
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    const inset = 5.0;
+                    final slotW = (box.maxWidth - inset * 2) / barItems.length;
+                    return Stack(
                       children: [
-                        const SizedBox(width: inset),
-                        for (var i = 0; i < barItems.length; i++)
-                          SizedBox(
-                            width: slotW,
-                            height: kBarHeight,
-                            child: _Slot(
-                              item: barItems[i],
-                              active: i == widget.index,
-                              activeColor: activeColor,
-                              onTap: () {
-                                HapticFeedback.selectionClick();
-                                widget.onTap(i);
-                              },
-                            ),
-                          ),
+                        AnimatedBuilder(
+                          animation: _pos,
+                          builder: (context, _) {
+                            final v = _pos.velocity;
+                            final stretch = (v.abs() * 0.045).clamp(0.0, 0.38);
+                            final w = (slotW - 4) * (1 + stretch);
+                            final h = (kBarHeight - inset * 2) * (1 - stretch * 0.22);
+                            final lead = v.sign * stretch * slotW * 0.18;
+                            final left = inset + _pos.value * slotW + (slotW - w) / 2 + lead;
+                            return Positioned(
+                              left: left,
+                              top: (kBarHeight - h) / 2,
+                              width: w,
+                              height: h,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(h / 2),
+                                  color: c.isDark
+                                      ? Colors.white.withValues(alpha: 0.12)
+                                      : Colors.black.withValues(alpha: 0.06),
+                                  border: Border.all(color: c.glassBorder, width: 0.6),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Colors.white.withValues(alpha: c.isDark ? 0.14 : 0.5),
+                                      Colors.white.withValues(alpha: 0),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(width: inset),
+                            for (var i = 0; i < barItems.length; i++)
+                              SizedBox(
+                                width: slotW,
+                                height: kBarHeight,
+                                child: _Slot(
+                                  item: barItems[i],
+                                  active: i == widget.index,
+                                  activeColor: activeColor,
+                                  onTap: () {
+                                    HapticFeedback.selectionClick();
+                                    widget.onTap(i);
+                                  },
+                                ),
+                              ),
+                          ],
+                        ),
                       ],
-                    ),
-                  ]);
-                }),
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -186,36 +192,41 @@ class _Slot extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: Stack(alignment: Alignment.center, children: [
-          AnimatedSlide(
-            offset: active ? const Offset(0, -0.22) : Offset.zero,
-            duration: d,
-            curve: Motion.curve,
-            child: AnimatedScale(
-              scale: active ? 1.06 : 1,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            AnimatedSlide(
+              offset: active ? const Offset(0, -0.22) : Offset.zero,
               duration: d,
-              child: TweenAnimationBuilder<Color?>(
-                tween: ColorTween(end: active ? activeColor : c.textDim),
+              curve: Motion.curve,
+              child: AnimatedScale(
+                scale: active ? 1.06 : 1,
                 duration: d,
-                builder: (_, col, _) => Icon(item.icon, size: 23, color: col),
+                child: TweenAnimationBuilder<Color?>(
+                  tween: ColorTween(end: active ? activeColor : c.textDim),
+                  duration: d,
+                  builder: (_, col, _) => Icon(item.icon, size: 23, color: col),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 10,
-            child: AnimatedOpacity(
-              opacity: active ? 1 : 0,
-              duration: d,
-              child: AnimatedSlide(
-                offset: active ? Offset.zero : const Offset(0, 0.4),
+            Positioned(
+              bottom: 10,
+              child: AnimatedOpacity(
+                opacity: active ? 1 : 0,
                 duration: d,
-                curve: Motion.curve,
-                child: Text(item.label.toUpperCase(),
-                    style: T.label(c.text).copyWith(fontSize: 9, letterSpacing: 0.9)),
+                child: AnimatedSlide(
+                  offset: active ? Offset.zero : const Offset(0, 0.4),
+                  duration: d,
+                  curve: Motion.curve,
+                  child: Text(
+                    item.label.toUpperCase(),
+                    style: T.label(c.text).copyWith(fontSize: 9, letterSpacing: 0.9),
+                  ),
+                ),
               ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }

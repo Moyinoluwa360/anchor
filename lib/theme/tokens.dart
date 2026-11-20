@@ -103,12 +103,12 @@ class AnchorColors extends ThemeExtension<AnchorColors> {
   /// Subtle per-area tint: shades of grey and green only, so the app stays
   /// black, white and lemon.
   Color areaTint(LifeArea a) => switch (a) {
-        LifeArea.startup => accentInk,
-        LifeArea.cloud => Color.lerp(text, accentInk, 0.55)!,
-        LifeArea.sideGigs => Color.lerp(text, accentInk, 0.3)!,
-        LifeArea.health => text,
-        LifeArea.personal => textDim,
-      };
+    LifeArea.startup => accentInk,
+    LifeArea.cloud => Color.lerp(text, accentInk, 0.55)!,
+    LifeArea.sideGigs => Color.lerp(text, accentInk, 0.3)!,
+    LifeArea.health => text,
+    LifeArea.personal => textDim,
+  };
 
   @override
   AnchorColors copyWith() => this;

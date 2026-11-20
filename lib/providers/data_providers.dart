@@ -35,21 +35,23 @@ final inboxProvider = StreamProvider<List<Task>>((ref) => ref.watch(taskRepoProv
 
 final allTasksProvider = StreamProvider<List<Task>>((ref) => ref.watch(taskRepoProvider).watchAll());
 
-final doneTasksProvider =
-    StreamProvider<List<Task>>((ref) => ref.watch(taskRepoProvider).watchAllDone());
+final doneTasksProvider = StreamProvider<List<Task>>((ref) => ref.watch(taskRepoProvider).watchAllDone());
 
 final todayBlocksProvider = StreamProvider<List<TimeBlock>>((ref) {
   return ref.watch(plannerRepoProvider).watchDay(ref.watch(todayProvider));
 });
 
 final goalsProvider = StreamProvider<List<Goal>>((ref) => ref.watch(goalRepoProvider).watchGoals());
-final milestonesProvider =
-    StreamProvider<List<Milestone>>((ref) => ref.watch(goalRepoProvider).watchMilestones());
-final allTargetsProvider =
-    StreamProvider<List<WeeklyTarget>>((ref) => ref.watch(goalRepoProvider).watchAllTargets());
+final milestonesProvider = StreamProvider<List<Milestone>>(
+  (ref) => ref.watch(goalRepoProvider).watchMilestones(),
+);
+final allTargetsProvider = StreamProvider<List<WeeklyTarget>>(
+  (ref) => ref.watch(goalRepoProvider).watchAllTargets(),
+);
 
-final checkInsProvider =
-    StreamProvider<List<EnergyCheckIn>>((ref) => ref.watch(journalRepoProvider).watchCheckIns());
+final checkInsProvider = StreamProvider<List<EnergyCheckIn>>(
+  (ref) => ref.watch(journalRepoProvider).watchCheckIns(),
+);
 
 final todayCheckInProvider = Provider<EnergyCheckIn?>((ref) {
   final d = ref.watch(todayProvider);

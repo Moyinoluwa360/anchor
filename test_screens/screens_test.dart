@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
 // Renders each main screen at iPhone size (390x844 @3x) to PNG for a visual
 // check on Windows. Not part of `flutter test` (lives outside test/).
 // Run:  flutter test test_screens --update-goldens   → PNGs in test_screens/out/
@@ -40,24 +41,42 @@ Future<void> _shoot(WidgetTester tester, String theme) async {
       GoogleFonts.jetBrainsMono(fontWeight: FontWeight.w700),
     ]);
   });
-  await tester.pumpWidget(ProviderScope(
-    overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
-    child: const AnchorApp(),
-  ));
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
+      child: const AnchorApp(),
+    ),
+  );
   for (var i = 0; i < 10; i++) {
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
     await tester.pump(const Duration(milliseconds: 100));
   }
-  const tabs = ['Now', 'Today', 'Week', 'Goals', 'Done'];
-  for (var i = 0; i < tabs.length; i++) {
-    if (i > 0) {
-      await tester.tap(find.bySemanticsLabel(tabs[i]).last);
-      for (var k = 0; k < 8; k++) {
-        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
-        await tester.pump(const Duration(milliseconds: 100));
-      }
+  Future<void> settle([int n = 8]) async {
+    for (var k = 0; k < n; k++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
+      await tester.pump(const Duration(milliseconds: 100));
     }
-    await expectLater(find.byType(AnchorApp), matchesGoldenFile('out/${theme}_${i}_${tabs[i].toLowerCase()}.png'));
+  }
+
+  Future<void> shot(String name) =>
+      expectLater(find.byType(AnchorApp), matchesGoldenFile('out/${theme}_$name.png'));
+
+  // Now: check-in card, then the first task card, then the running timer.
+  await shot('0a_now_checkin');
+  await tester.tap(find.bySemanticsLabel('Skip for now').last);
+  await settle();
+  await shot('0b_now_deck');
+  await tester.tap(find.bySemanticsLabel(RegExp('^Start')).last);
+  await settle(12);
+  await shot('0c_now_timer');
+  await tester.tap(find.bySemanticsLabel('Stop timer').last);
+  await settle();
+
+  const tabs = ['Today', 'Week', 'Goals', 'Done'];
+  for (var i = 0; i < tabs.length; i++) {
+    await tester.tap(find.bySemanticsLabel(tabs[i]).last);
+    await settle();
+    await shot('${i + 1}_${tabs[i].toLowerCase()}');
   }
   await tester.pumpWidget(const SizedBox());
   await tester.pump(const Duration(seconds: 1));

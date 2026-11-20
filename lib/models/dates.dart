@@ -15,8 +15,7 @@ bool sameDay(DateTime a, DateTime b) => a.year == b.year && a.month == b.month &
 DateTime addDays(DateTime d, int n) => DateTime(d.year, d.month, d.day + n);
 
 /// "09:30"
-String hhmm(DateTime t) =>
-    '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
+String hhmm(DateTime t) => '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
 
 /// "24:59" style countdown; hours shown only when needed.
 String clock(Duration d) {

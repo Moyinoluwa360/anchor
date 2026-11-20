@@ -35,20 +35,18 @@ class GoalRepository {
   Future<int> addMilestone(MilestonesCompanion c) => db.into(db.milestones).insert(c);
   Future<void> patchMilestone(int id, MilestonesCompanion c) =>
       (db.update(db.milestones)..where((m) => m.id.equals(id))).write(c);
-  Future<void> setMilestoneDone(int id, bool done) => patchMilestone(
-      id, MilestonesCompanion(done: Value(done), doneAt: Value(done ? DateTime.now() : null)));
-  Future<void> deleteMilestone(int id) =>
-      (db.delete(db.milestones)..where((m) => m.id.equals(id))).go();
+  Future<void> setMilestoneDone(int id, bool done) =>
+      patchMilestone(id, MilestonesCompanion(done: Value(done), doneAt: Value(done ? DateTime.now() : null)));
+  Future<void> deleteMilestone(int id) => (db.delete(db.milestones)..where((m) => m.id.equals(id))).go();
 
   Future<int> addTarget(WeeklyTargetsCompanion c) => db.into(db.weeklyTargets).insert(c);
   Future<void> patchTarget(int id, WeeklyTargetsCompanion c) =>
       (db.update(db.weeklyTargets)..where((w) => w.id.equals(id))).write(c);
-  Future<void> deleteTarget(int id) =>
-      (db.delete(db.weeklyTargets)..where((w) => w.id.equals(id))).go();
+  Future<void> deleteTarget(int id) => (db.delete(db.weeklyTargets)..where((w) => w.id.equals(id))).go();
 
   Future<void> reorderTargets(List<int> idsInOrder) => db.transaction(() async {
-        for (var i = 0; i < idsInOrder.length; i++) {
-          await patchTarget(idsInOrder[i], WeeklyTargetsCompanion(sortOrder: Value(i)));
-        }
-      });
+    for (var i = 0; i < idsInOrder.length; i++) {
+      await patchTarget(idsInOrder[i], WeeklyTargetsCompanion(sortOrder: Value(i)));
+    }
+  });
 }

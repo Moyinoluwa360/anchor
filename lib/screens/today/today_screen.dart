@@ -13,12 +13,21 @@ class TodayScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.c;
-    return CustomScrollView(slivers: [
-      const SliverToBoxAdapter(child: ScreenHeader(title: 'Today')),
-      SliverPadding(
-        padding: EdgeInsets.fromLTRB(Space.gutter, Space.xl, Space.gutter, GlassBottomBar.reserved(context)),
-        sliver: SliverToBoxAdapter(child: Text('Your day as a dial — coming in Stage 4.', style: T.body(c.textDim))),
-      ),
-    ]);
+    return CustomScrollView(
+      slivers: [
+        const SliverToBoxAdapter(child: ScreenHeader(title: 'Today')),
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            Space.gutter,
+            Space.xl,
+            Space.gutter,
+            GlassBottomBar.reserved(context),
+          ),
+          sliver: SliverToBoxAdapter(
+            child: Text('Your day as a dial — coming in Stage 4.', style: T.body(c.textDim)),
+          ),
+        ),
+      ],
+    );
   }
 }

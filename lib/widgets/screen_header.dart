@@ -20,18 +20,18 @@ class ScreenHeader extends StatelessWidget {
     final c = context.c;
     return Padding(
       padding: EdgeInsets.fromLTRB(Space.gutter, MediaQuery.paddingOf(context).top + 4, 8, 0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SizedBox(
-          height: 44,
-          child: Row(children: [const Spacer(), ...actions]),
-        ),
-        const SizedBox(height: 6),
-        if (kicker != null) ...[
-          Text(kicker!.toUpperCase(), style: T.label(c.textDim)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 44, child: Row(children: [const Spacer(), ...actions])),
           const SizedBox(height: 6),
+          if (kicker != null) ...[
+            Text(kicker!.toUpperCase(), style: T.label(c.textDim)),
+            const SizedBox(height: 6),
+          ],
+          Semantics(header: true, child: Text(title, style: T.h1(c.text))),
         ],
-        Semantics(header: true, child: Text(title, style: T.h1(c.text))),
-      ]),
+      ),
     );
   }
 }

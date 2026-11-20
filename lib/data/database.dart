@@ -31,8 +31,7 @@ class Milestones extends Table {
 
 class WeeklyTargets extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get goalId =>
-      integer().nullable().references(Goals, #id, onDelete: KeyAction.setNull)();
+  IntColumn get goalId => integer().nullable().references(Goals, #id, onDelete: KeyAction.setNull)();
 
   /// Monday 00:00 of the week this target belongs to.
   DateTimeColumn get weekStart => dateTime()();
@@ -45,8 +44,7 @@ class Tasks extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get title => text()();
   TextColumn get area => textEnum<LifeArea>()();
-  IntColumn get goalId =>
-      integer().nullable().references(Goals, #id, onDelete: KeyAction.setNull)();
+  IntColumn get goalId => integer().nullable().references(Goals, #id, onDelete: KeyAction.setNull)();
   IntColumn get weeklyTargetId =>
       integer().nullable().references(WeeklyTargets, #id, onDelete: KeyAction.setNull)();
   IntColumn get estimatedMinutes => integer().withDefault(const Constant(25))();
@@ -76,8 +74,7 @@ class TimeBlocks extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get startAt => dateTime()();
   DateTimeColumn get endAt => dateTime()();
-  IntColumn get taskId =>
-      integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
+  IntColumn get taskId => integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
   TextColumn get label => text().withDefault(const Constant(''))();
   TextColumn get type => textEnum<BlockType>()();
 
@@ -87,8 +84,7 @@ class TimeBlocks extends Table {
 
 class FocusSessions extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get taskId =>
-      integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
+  IntColumn get taskId => integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
   IntColumn get plannedMinutes => integer()();
   IntColumn get breakMinutes => integer().withDefault(const Constant(5))();
   IntColumn get actualSeconds => integer().withDefault(const Constant(0))();
@@ -113,8 +109,7 @@ class Reminders extends Table {
   TextColumn get title => text()();
   DateTimeColumn get at => dateTime()();
   TextColumn get repeat => textEnum<RepeatRule>().withDefault(Constant(RepeatRule.none.name))();
-  IntColumn get taskId =>
-      integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
+  IntColumn get taskId => integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
   BoolColumn get enabled => boolean().withDefault(const Constant(true))();
 }
 
@@ -130,23 +125,24 @@ class Highlights extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get title => text()();
   DateTimeColumn get date => dateTime()();
-  IntColumn get taskId =>
-      integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
+  IntColumn get taskId => integer().nullable().references(Tasks, #id, onDelete: KeyAction.setNull)();
   TextColumn get note => text().nullable()();
 }
 
-@DriftDatabase(tables: [
-  Goals,
-  Milestones,
-  WeeklyTargets,
-  Tasks,
-  TimeBlocks,
-  FocusSessions,
-  EnergyCheckIns,
-  Reminders,
-  BrainDumps,
-  Highlights,
-])
+@DriftDatabase(
+  tables: [
+    Goals,
+    Milestones,
+    WeeklyTargets,
+    Tasks,
+    TimeBlocks,
+    FocusSessions,
+    EnergyCheckIns,
+    Reminders,
+    BrainDumps,
+    Highlights,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'anchor'));
 
@@ -155,22 +151,22 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
+    beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
+  );
 
   /// Every table, child tables last — used by export/import and reset.
   List<TableInfo<Table, dynamic>> get orderedTables => [
-        goals,
-        milestones,
-        weeklyTargets,
-        tasks,
-        timeBlocks,
-        focusSessions,
-        energyCheckIns,
-        reminders,
-        brainDumps,
-        highlights,
-      ];
+    goals,
+    milestones,
+    weeklyTargets,
+    tasks,
+    timeBlocks,
+    focusSessions,
+    energyCheckIns,
+    reminders,
+    brainDumps,
+    highlights,
+  ];
 }

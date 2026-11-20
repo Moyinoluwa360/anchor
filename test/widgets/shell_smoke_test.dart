@@ -14,15 +14,21 @@ import '../helpers.dart';
 void main() {
   testWidgets('shell shows five tabs and switches between them', (tester) async {
     GoogleFonts.config.allowRuntimeFetching = false;
+    // Smallest supported iPhone (SE, 375x667 pt).
+    tester.view.physicalSize = const Size(750, 1334);
+    tester.view.devicePixelRatio = 2;
+    addTearDown(tester.view.reset);
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     final db = memoryDb();
     await tester.runAsync(() => Seeder(db).seed());
 
-    await tester.pumpWidget(ProviderScope(
-      overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
-      child: const AnchorApp(),
-    ));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
+        child: const AnchorApp(),
+      ),
+    );
     await tester.pump(const Duration(milliseconds: 500));
 
     expect(find.byType(GlassBottomBar), findsOneWidget);

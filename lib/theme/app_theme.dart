@@ -31,10 +31,12 @@ abstract final class AppTheme {
       dividerColor: c.border,
       extensions: [c],
       cupertinoOverrideTheme: CupertinoThemeData(brightness: b, primaryColor: c.accentInk),
-      pageTransitionsTheme: const PageTransitionsTheme(builders: {
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      }),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        },
+      ),
     );
     return base.copyWith(
       textTheme: base.textTheme.apply(
@@ -48,7 +50,8 @@ abstract final class AppTheme {
         modalBackgroundColor: c.surface,
         surfaceTintColor: Colors.transparent,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(Radii.big))),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(Radii.big)),
+        ),
         showDragHandle: true,
         dragHandleColor: c.border,
       ),
@@ -63,10 +66,13 @@ abstract final class AppTheme {
         hintStyle: TextStyle(color: c.textDim),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Radii.chip), borderSide: BorderSide.none),
+          borderRadius: BorderRadius.circular(Radii.chip),
+          borderSide: BorderSide.none,
+        ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Radii.chip),
-            borderSide: BorderSide(color: c.accentInk, width: 1)),
+          borderRadius: BorderRadius.circular(Radii.chip),
+          borderSide: BorderSide(color: c.accentInk, width: 1),
+        ),
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: c.accentInk,
@@ -75,9 +81,11 @@ abstract final class AppTheme {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? c.onAccent : c.textDim),
+          (s) => s.contains(WidgetState.selected) ? c.onAccent : c.textDim,
+        ),
         trackColor: WidgetStateProperty.resolveWith(
-            (s) => s.contains(WidgetState.selected) ? c.accent : c.surface2),
+          (s) => s.contains(WidgetState.selected) ? c.accent : c.surface2,
+        ),
         trackOutlineColor: WidgetStatePropertyAll(c.border),
       ),
       sliderTheme: SliderThemeData(

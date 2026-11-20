@@ -13,12 +13,19 @@ class DoneScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.c;
-    return CustomScrollView(slivers: [
-      const SliverToBoxAdapter(child: ScreenHeader(title: 'Done')),
-      SliverPadding(
-        padding: EdgeInsets.fromLTRB(Space.gutter, Space.xl, Space.gutter, GlassBottomBar.reserved(context)),
-        sliver: SliverToBoxAdapter(child: Text('The heat map lands in Stage 7.', style: T.body(c.textDim))),
-      ),
-    ]);
+    return CustomScrollView(
+      slivers: [
+        const SliverToBoxAdapter(child: ScreenHeader(title: 'Done')),
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            Space.gutter,
+            Space.xl,
+            Space.gutter,
+            GlassBottomBar.reserved(context),
+          ),
+          sliver: SliverToBoxAdapter(child: Text('The heat map lands in Stage 7.', style: T.body(c.textDim))),
+        ),
+      ],
+    );
   }
 }

@@ -14,12 +14,12 @@ enum LifeArea {
   final IconData icon;
 
   String get short => switch (this) {
-        LifeArea.startup => 'Startup',
-        LifeArea.cloud => 'Cloud',
-        LifeArea.sideGigs => 'Gigs',
-        LifeArea.health => 'Health',
-        LifeArea.personal => 'Personal',
-      };
+    LifeArea.startup => 'Startup',
+    LifeArea.cloud => 'Cloud',
+    LifeArea.sideGigs => 'Gigs',
+    LifeArea.health => 'Health',
+    LifeArea.personal => 'Personal',
+  };
 }
 
 enum TaskStatus { todo, inProgress, done, snoozed }

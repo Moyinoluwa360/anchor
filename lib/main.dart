@@ -33,11 +33,10 @@ Future<void> main() async {
   }
   await prefs.setBool('seeded', true);
 
-  runApp(ProviderScope(
-    overrides: [
-      prefsProvider.overrideWithValue(prefs),
-      dbProvider.overrideWithValue(db),
-    ],
-    child: const AnchorApp(),
-  ));
+  runApp(
+    ProviderScope(
+      overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
+      child: const AnchorApp(),
+    ),
+  );
 }
