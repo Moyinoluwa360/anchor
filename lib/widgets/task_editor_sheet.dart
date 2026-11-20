@@ -6,6 +6,7 @@ import '../data/database.dart';
 import '../models/dates.dart';
 import '../models/enums.dart';
 import '../providers/data_providers.dart';
+import '../providers/week_providers.dart';
 import '../theme/tokens.dart';
 import '../theme/typography.dart';
 import 'buttons.dart';
@@ -57,6 +58,7 @@ class _TaskEditorState extends ConsumerState<_TaskEditor> {
   late Effort _effort = widget.task?.effort ?? Effort.medium;
   late int _priority = widget.task?.priority ?? 2;
   late int? _goalId = widget.task?.goalId ?? widget.goalId;
+  late int? _targetId = widget.task?.weeklyTargetId ?? widget.weeklyTargetId;
   late _Day _day = _initialDay();
 
   _Day _initialDay() {
@@ -93,11 +95,12 @@ class _TaskEditorState extends ConsumerState<_TaskEditor> {
       effort: Value(_effort),
       priority: Value(_priority),
       goalId: Value(_goalId),
+      weeklyTargetId: Value(_targetId),
       scheduledDate: Value(_scheduled),
     );
     final nav = Navigator.of(context);
     if (widget.task == null) {
-      final id = await repo.add(c.copyWith(weeklyTargetId: Value(widget.weeklyTargetId)));
+      final id = await repo.add(c);
       nav.pop(id);
     } else {
       await repo.patch(widget.task!.id, c);
@@ -109,6 +112,10 @@ class _TaskEditorState extends ConsumerState<_TaskEditor> {
   Widget build(BuildContext context) {
     final c = context.c;
     final goals = ref.watch(goalsProvider).value ?? const <Goal>[];
+    // This week's targets, narrowed to the chosen goal.
+    final targets = (ref.watch(weekTargetsProvider).value ?? const <WeeklyTarget>[])
+        .where((t) => _goalId == null || t.goalId == _goalId)
+        .toList();
     return SheetBody(
       title: widget.task == null ? 'New task' : 'Edit task',
       children: [
@@ -199,15 +206,43 @@ class _TaskEditorState extends ConsumerState<_TaskEditor> {
             spacing: 8,
             runSpacing: 8,
             children: [
-              Pill(label: 'None', selected: _goalId == null, onTap: () => setState(() => _goalId = null)),
+              Pill(
+                label: 'None',
+                selected: _goalId == null,
+                onTap: () => setState(() {
+                  _goalId = null;
+                  _targetId = null;
+                }),
+              ),
               for (final g in goals)
                 Pill(
                   label: g.title.length > 28 ? '${g.title.substring(0, 27)}…' : g.title,
                   icon: g.area.icon,
                   selected: _goalId == g.id,
                   onTap: () => setState(() {
+                    if (_goalId != g.id) _targetId = null;
                     _goalId = g.id;
                     _area = g.area;
+                  }),
+                ),
+            ],
+          ),
+        ],
+        if (targets.isNotEmpty) ...[
+          const FieldLabel('Counts toward this week\'s target'),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              Pill(label: 'None', selected: _targetId == null, onTap: () => setState(() => _targetId = null)),
+              for (final t in targets)
+                Pill(
+                  label: t.title.length > 30 ? '${t.title.substring(0, 29)}…' : t.title,
+                  icon: Icons.flag_rounded,
+                  selected: _targetId == t.id,
+                  onTap: () => setState(() {
+                    _targetId = t.id;
+                    if (t.goalId != null) _goalId = t.goalId;
                   }),
                 ),
             ],

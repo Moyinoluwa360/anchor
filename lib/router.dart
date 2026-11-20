@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'screens/done/done_screen.dart';
+import 'screens/goals/goal_detail_screen.dart';
 import 'screens/goals/goals_screen.dart';
 import 'screens/now/now_screen.dart';
 import 'screens/onboarding/notifications_intro_screen.dart';
 import 'screens/reminders/reminders_screen.dart';
 import 'screens/shell/app_shell.dart';
 import 'screens/today/today_screen.dart';
+import 'screens/week/review_screen.dart';
 import 'screens/week/week_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -21,6 +23,7 @@ abstract final class Routes {
   static const goals = '/goals';
   static const done = '/done';
   static const reminders = '/reminders';
+  static const review = '/review';
   static const notificationsIntro = '/welcome/notifications';
 }
 
@@ -31,6 +34,21 @@ Page<void> _fade(GoRouterState s, Widget child) => CustomTransitionPage<void>(
   transitionDuration: const Duration(milliseconds: 220),
   transitionsBuilder: (context, a, _, child) => FadeTransition(
     opacity: CurvedAnimation(parent: a, curve: Curves.easeOut),
+    child: child,
+  ),
+);
+
+/// Full-screen sheet that slides up (goal detail).
+Page<void> _sheet(GoRouterState s, Widget child) => CustomTransitionPage<void>(
+  key: s.pageKey,
+  child: child,
+  transitionDuration: const Duration(milliseconds: 340),
+  reverseTransitionDuration: const Duration(milliseconds: 260),
+  transitionsBuilder: (context, a, _, child) => SlideTransition(
+    position: Tween(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: a, curve: Curves.easeOutCubic)),
     child: child,
   ),
 );
@@ -50,7 +68,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [GoRoute(path: Routes.today, pageBuilder: (c, s) => _fade(s, const TodayScreen()))],
           ),
           StatefulShellBranch(
-            routes: [GoRoute(path: Routes.week, pageBuilder: (c, s) => _fade(s, const WeekScreen()))],
+            routes: [
+              GoRoute(
+                path: Routes.week,
+                pageBuilder: (c, s) =>
+                    _fade(s, WeekScreen(openReview: s.uri.queryParameters['review'] == '1')),
+              ),
+            ],
           ),
           StatefulShellBranch(
             routes: [GoRoute(path: Routes.goals, pageBuilder: (c, s) => _fade(s, const GoalsScreen()))],
@@ -61,6 +85,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(path: Routes.reminders, builder: (c, s) => const RemindersScreen()),
+      GoRoute(
+        path: Routes.review,
+        pageBuilder: (c, s) => const MaterialPage(fullscreenDialog: true, child: ReviewScreen()),
+      ),
+      GoRoute(
+        path: '${Routes.goals}/:id',
+        pageBuilder: (c, s) =>
+            _sheet(s, GoalDetailScreen(goalId: int.tryParse(s.pathParameters['id'] ?? '') ?? -1)),
+      ),
       GoRoute(
         path: Routes.notificationsIntro,
         pageBuilder: (c, s) => const MaterialPage(fullscreenDialog: true, child: NotificationsIntroScreen()),

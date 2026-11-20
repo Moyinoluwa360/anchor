@@ -138,6 +138,36 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false, bool
       await tester.tap(find.bySemanticsLabel('Show dial').last);
       await settle();
     }
+    if (tabs[i] == 'Week') {
+      await tester.tap(find.bySemanticsLabel('Weekly review').last);
+      await settle();
+      await shot('2c_review_1');
+      await tester.tap(find.bySemanticsLabel('Next').last);
+      await settle();
+      await shot('2d_review_2');
+      await tester.tap(find.bySemanticsLabel('Next').last);
+      await settle();
+      await shot('2e_review_3');
+      await tester.tap(find.byTooltip('Close review'));
+      await settle();
+      await tester.drag(find.byType(CustomScrollView).last, const Offset(0, -500));
+      await settle();
+      await shot('2b_week_scrolled');
+    }
+    if (tabs[i] == 'Goals') {
+      await settle(6);
+      await shot('3a_goals_settled');
+      await tester.tap(find.bySemanticsLabel(RegExp('^Grow the startup')).last);
+      await settle();
+      await shot('3b_goal_detail');
+      await tester.tap(find.byTooltip('Close'));
+      await settle();
+      await tester.tap(find.bySemanticsLabel('Show carousel').last);
+      await settle();
+      await shot('3c_goals_carousel');
+      await tester.tap(find.bySemanticsLabel('Show constellation').last);
+      await settle();
+    }
   }
   await tester.pumpWidget(const SizedBox());
   await tester.pump(const Duration(seconds: 1));

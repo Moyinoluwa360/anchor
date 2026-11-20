@@ -74,19 +74,19 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 5.7 analyze + test green
 
 ## Stage 6 — Week and Goals
-- [ ] 6.1 Bento board layout
-- [ ] 6.2 Week-at-a-glance tile: 7 load bars, today lemon
-- [ ] 6.3 Weekly target tiles (%, thick bar, goal icon), long-press drag reorder
-- [ ] 6.4 Tiles: focus hours this week, tasks done this week, next milestone
-- [ ] 6.5 Target editor (3–5 per week, linked to goal)
-- [ ] 6.6 Sunday review story cards: done → carry over → pick next targets
-- [ ] 6.7 Goal constellation (InteractiveViewer), grouped by area, orbiting milestones, progress rings
-- [ ] 6.8 Drag nodes, layout persisted
-- [ ] 6.9 Goal detail full-screen sheet (why, milestones, targets, tasks, progress timeline)
-- [ ] 6.10 Carousel toggle
-- [ ] 6.11 Goal / milestone / task editors and linking
-- [ ] 6.12 Progress computation tests
-- [ ] 6.13 analyze + test green
+- [x] 6.1 Bento board layout
+- [x] 6.2 Week-at-a-glance tile: 7 load bars, today lemon
+- [x] 6.3 Weekly target tiles (%, thick bar, goal icon), long-press drag reorder
+- [x] 6.4 Tiles: focus hours this week, tasks done this week, next milestone
+- [x] 6.5 Target editor (3–5 per week, linked to goal)
+- [x] 6.6 Sunday review story cards: done → carry over → pick next targets
+- [x] 6.7 Goal constellation (InteractiveViewer), grouped by area, orbiting milestones, progress rings
+- [x] 6.8 Drag nodes, layout persisted
+- [x] 6.9 Goal detail full-screen sheet (why, milestones, targets, tasks, progress timeline)
+- [x] 6.10 Carousel toggle
+- [x] 6.11 Goal / milestone / task editors and linking
+- [x] 6.12 Progress computation tests
+- [x] 6.13 analyze + test green
 
 ## Stage 7 — Done and insights
 - [ ] 7.1 Heat map (last ~6 months), tap day → card stack
@@ -198,3 +198,21 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
   Nothing is sent anywhere; the link opens in Safari.
 - Top 3: star button on Now; up to 3 in order; shown as a slim strip and as TOP n badges;
   ranks lead the deck.
+- Progress (`services/progress_service.dart`): goal = 60 % milestones + 40 % linked tasks
+  (either alone counts 100 %; achieved = 100 %). Weekly target = its done flag, else the
+  share of linked tasks done.
+- Week bento: wide "week at a glance" (bars = planned focus/admin/fixed per day against the
+  healthy line, dots = tasks done, today lemon), focus-hours and tasks-done tiles, 2-up
+  target tiles (100 % turns the tile lemon), hold-and-drag to reorder, a dashed "add" tile
+  while under 5, and the next milestone. On Sundays a lemon tile opens the review.
+- Sunday review (also from the book icon or the Sunday notification): 1) done this week,
+  focus hours, targets hit; 2) carry-over, tap to send something to "someday" instead;
+  3) next week's 3–5 targets, pre-suggested from each active goal's next milestone,
+  editable; then "Week closed".
+- Constellation: 1200×1200 canvas in an InteractiveViewer, auto-fitted on open; goals
+  grouped by area (faint labels, hairlines between same-area goals), milestones orbit
+  slowly (static with reduced motion). Hold a goal and drag to move it; position is saved.
+  Tap → full-screen goal sheet that slides up (why, ring, progress-over-time chart,
+  milestone timeline: tap to tick, hold to remove, inline add; weekly targets; tasks).
+- Linking: tasks pick a goal and this week's target (narrowed to that goal); targets pick
+  a goal and can add tasks for themselves.
