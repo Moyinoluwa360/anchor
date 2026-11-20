@@ -1,0 +1,7 @@
+// The ONE place the iOS bundle identifier is set. Everything else derives from it:
+//   app            $(APP_BUNDLE_ID)
+//   widgets / LA   $(APP_BUNDLE_ID).widgets
+//   App Group      group.$(APP_BUNDLE_ID)
+// If you change it, also change BUNDLE_ID in codemagic.yaml and
+// AppConfig.bundleId in lib/app_config.dart (tool/check_bundle_id.sh verifies all three).
+APP_BUNDLE_ID = com.anchorapp.anchor

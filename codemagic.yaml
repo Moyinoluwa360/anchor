@@ -1,0 +1,79 @@
+# Anchor: iOS build → TestFlight, entirely on Codemagic (no Mac needed).
+# One-time owner setup is in docs/CODEMAGIC_SETUP.md.
+workflows:
+  ios-testflight:
+    name: Anchor iOS → TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      # Name of the App Store Connect API key you add in Codemagic
+      # (Team settings → Integrations → Developer Portal). Never committed here.
+      app_store_connect: Anchor ASC key
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.anchorapp.anchor
+      vars:
+        # Must match ios/Flutter/AppConfig.xcconfig (checked by tool/check_bundle_id.sh).
+        BUNDLE_ID: com.anchorapp.anchor
+        # Numeric "Apple ID" of the app (App Store Connect → App Information).
+        APP_STORE_APPLE_ID: "0000000000"
+        # Home screen widgets + Live Activity extension (Stage 9).
+        # Set to "false" to ship the main app without the extension.
+        ENABLE_WIDGETS: "false"
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+    scripts:
+      - name: Check bundle identifier is consistent
+        script: ./tool/check_bundle_id.sh
+      - name: Get packages
+        script: flutter pub get
+      - name: Generate database code
+        script: dart run build_runner build
+      - name: Analyze
+        script: flutter analyze
+      - name: Unit tests
+        script: flutter test
+      - name: Widget extension (only when ENABLE_WIDGETS=true)
+        script: |
+          if [ "$ENABLE_WIDGETS" = "true" ] && [ -f tool/add_widget_extension.rb ]; then
+            gem install xcodeproj --no-document
+            if ruby tool/add_widget_extension.rb; then
+              echo "Widget extension added."
+            else
+              echo "Widget extension step failed: building the main app without it."
+              git checkout -- ios/Runner.xcodeproj ios/Runner/Runner.entitlements 2>/dev/null || true
+            fi
+          else
+            echo "Widgets disabled: building the main app only."
+          fi
+      - name: Install pods
+        script: |
+          cd ios
+          pod install --repo-update || pod install
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build ipa (build number = latest TestFlight + 1)
+        script: |
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo 0)
+          BUILD_NUMBER=$((LATEST + 1))
+          echo "Building $BUILD_NUMBER"
+          flutter build ipa --release \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
