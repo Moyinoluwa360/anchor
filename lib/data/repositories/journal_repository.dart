@@ -27,8 +27,10 @@ class JournalRepository {
       .into(db.energyCheckIns)
       .insert(
         EnergyCheckInsCompanion.insert(date: dayOf(day), energy: energy, mood: mood, note: Value(note)),
+        // One check-in per day: a second one replaces the first.
         onConflict: DoUpdate(
           (_) => EnergyCheckInsCompanion(energy: Value(energy), mood: Value(mood), note: Value(note)),
+          target: [db.energyCheckIns.date],
         ),
         mode: InsertMode.insert,
       );

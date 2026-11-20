@@ -65,13 +65,13 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 4.12 analyze + test green
 
 ## Stage 5 — Energy check-in and adaptation
-- [ ] 5.1 Check-in UI: energy + mood 1–5, big emoji buttons, optional note (≈10 s)
-- [ ] 5.2 Low energy → lighter plan, shorter blocks, easy wins first
-- [ ] 5.3 High energy → hardest/most important first
-- [ ] 5.4 Daily top 3 picker + display on Now
-- [ ] 5.5 Several low days → kind support message + resources sheet
-- [ ] 5.6 Tests for adaptation + low-streak detection
-- [ ] 5.7 analyze + test green
+- [x] 5.1 Check-in UI: energy + mood 1–5, big emoji buttons, optional note (≈10 s)
+- [x] 5.2 Low energy → lighter plan, shorter blocks, easy wins first
+- [x] 5.3 High energy → hardest/most important first
+- [x] 5.4 Daily top 3 picker + display on Now
+- [x] 5.5 Several low days → kind support message + resources sheet
+- [x] 5.6 Tests for adaptation + low-streak detection
+- [x] 5.7 analyze + test green
 
 ## Stage 6 — Week and Goals
 - [ ] 6.1 Bento board layout
@@ -187,3 +187,14 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
   only future focus/break/admin blocks.
 - Timeline: drag a block to move, drag its bottom edge to resize (blocks under 40 px are
   resized from the editor), tap empty space for a new 1-hour block.
+- Energy (Stage 5, `services/energy_service.dart`): low (1–2) → the Now deck shows 3 cards
+  (easy wins first; later-planned blocks no longer jump the queue) plus a "N more can wait"
+  card, and the timer drops to 25/5. High (4–5) → heaviest, most important first, with a
+  small "Hardest first" nudge on the card. The check-in can be redone by tapping the
+  "ENERGY n/5" line; a second check-in the same day replaces the first.
+- Support message: energy OR mood ≤ 2 on 3 consecutive check-in days (ending today or
+  yesterday) → a kind deck card with "See support options" (trusted person, doctor,
+  findahelpline.com, local emergency number). "Not today" hides it until tomorrow.
+  Nothing is sent anywhere; the link opens in Safari.
+- Top 3: star button on Now; up to 3 in order; shown as a slim strip and as TOP n badges;
+  ranks lead the deck.

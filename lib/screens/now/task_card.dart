@@ -19,12 +19,16 @@ class TaskCard extends StatefulWidget {
     required this.onEdit,
     this.block,
     this.now,
+    this.hint,
   });
 
   final Task task;
   final TimeBlock? block;
   final bool active;
   final DateTime? now;
+
+  /// Small lemon nudge on the card (e.g. "Hardest first" on a high-energy day).
+  final String? hint;
   final Future<void> Function() onComplete;
   final Future<void> Function() onSnooze;
   final VoidCallback onEdit;
@@ -111,7 +115,13 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
                 ),
               );
             },
-            child: _CardFace(task: t, block: widget.block, active: widget.active, now: widget.now),
+            child: _CardFace(
+              task: t,
+              block: widget.block,
+              active: widget.active,
+              now: widget.now,
+              hint: widget.hint,
+            ),
           ),
         );
       },
@@ -120,11 +130,12 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
 }
 
 class _CardFace extends StatelessWidget {
-  const _CardFace({required this.task, required this.active, this.block, this.now});
+  const _CardFace({required this.task, required this.active, this.block, this.now, this.hint});
   final Task task;
   final TimeBlock? block;
   final bool active;
   final DateTime? now;
+  final String? hint;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +195,7 @@ class _CardFace extends StatelessWidget {
                   Text('SNOOZED', style: T.label(c.textDim)),
               ],
             ),
+            if (hint != null) ...[const SizedBox(height: Space.s), Text(hint!, style: T.small(c.accentInk))],
             const SizedBox(height: Space.l),
             Expanded(
               child: Column(

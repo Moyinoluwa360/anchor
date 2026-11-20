@@ -4,6 +4,7 @@
 // Run:  flutter test test_screens --update-goldens   → PNGs in test_screens/out/
 import 'package:anchor/app.dart';
 import 'package:anchor/data/database.dart';
+import 'package:anchor/data/repositories/journal_repository.dart';
 import 'package:anchor/data/seed.dart';
 import 'package:anchor/providers/data_providers.dart';
 import 'package:anchor/providers/settings.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false}) async {
+Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false, bool lowDay = false}) async {
   GoogleFonts.config.allowRuntimeFetching = false;
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
   tester.view.physicalSize = const Size(1170, 2532);
@@ -27,6 +28,21 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false}) asy
   final prefs = await SharedPreferences.getInstance();
   final db = AppDatabase(NativeDatabase.memory());
   await tester.runAsync(() => Seeder(db).seed());
+  if (lowDay) {
+    await tester.runAsync(() async {
+      final t = DateTime.now();
+      for (var i = 0; i < 3; i++) {
+        await JournalRepository(db).saveCheckIn(DateTime(t.year, t.month, t.day - i), 2, 2, null);
+      }
+      final open = await (db.select(db.tasks)..where((x) => x.status.equals('todo'))).get();
+      final d = DateTime(t.year, t.month, t.day);
+      for (var i = 0; i < 2; i++) {
+        await (db.update(db.tasks)..where((x) => x.id.equals(open[i].id))).write(
+          TasksCompanion(topRank: Value(i + 1), topDate: Value(d)),
+        );
+      }
+    });
+  }
   await tester.runAsync(() async {
     final icons = FontLoader('MaterialIcons')..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
     await icons.load();
@@ -61,6 +77,21 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false}) asy
   Future<void> shot(String name) =>
       expectLater(find.byType(AnchorApp), matchesGoldenFile('out/${theme}_$name.png'));
 
+  if (lowDay) {
+    await settle();
+    await shot('lowday_0_support');
+    await tester.tap(find.bySemanticsLabel('Continue gently').last);
+    await settle();
+    await shot('lowday_1_deck');
+    for (var i = 0; i < 3; i++) {
+      await tester.drag(find.byType(PageView), const Offset(-300, 0));
+      await settle(4);
+    }
+    await shot('lowday_2_resting');
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(seconds: 1));
+    return;
+  }
   if (intro) {
     await settle();
     await shot('welcome_notifications');
@@ -116,4 +147,5 @@ void main() {
   testWidgets('dark', (t) => _shoot(t, 'dark'));
   testWidgets('light', (t) => _shoot(t, 'light'));
   testWidgets('intro', (t) => _shoot(t, 'dark', intro: true));
+  testWidgets('lowday', (t) => _shoot(t, 'dark', lowDay: true));
 }

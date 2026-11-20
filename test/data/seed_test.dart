@@ -4,6 +4,8 @@ import 'package:anchor/models/dates.dart';
 import 'package:anchor/models/enums.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:anchor/data/repositories/journal_repository.dart';
+
 import '../helpers.dart';
 
 void main() {
@@ -65,5 +67,17 @@ void main() {
     expect(await a.tasks.count().getSingle(), await b.tasks.count().getSingle());
     await a.close();
     await b.close();
+  });
+
+  test('checking in twice on one day replaces the first check-in', () async {
+    final db = memoryDb();
+    await Seeder(db, now: now).seed();
+    final repo = JournalRepository(db);
+    await repo.saveCheckIn(now, 2, 3, null);
+    await repo.saveCheckIn(now.add(const Duration(hours: 2)), 4, 5, 'better');
+    final today_ = await (db.select(db.energyCheckIns)..where((c) => c.date.equals(today(now)))).get();
+    expect(today_, hasLength(1));
+    expect((today_.single.energy, today_.single.mood, today_.single.note), (4, 5, 'better'));
+    await db.close();
   });
 }
