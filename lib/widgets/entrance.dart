@@ -16,7 +16,10 @@ class Entrance extends StatefulWidget {
 }
 
 class _EntranceState extends State<Entrance> with SingleTickerProviderStateMixin {
-  late final AnimationController _a = AnimationController(vsync: this, duration: const Duration(milliseconds: 280));
+  late final AnimationController _a = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 280),
+  );
   Timer? _delay;
 
   @override
@@ -53,5 +56,5 @@ class _EntranceState extends State<Entrance> with SingleTickerProviderStateMixin
 
 /// Wraps each child in an [Entrance] with increasing delay.
 List<Widget> staggered(List<Widget> children) => [
-      for (var i = 0; i < children.length; i++) Entrance(index: i, child: children[i]),
-    ];
+  for (var i = 0; i < children.length; i++) Entrance(index: i, child: children[i]),
+];

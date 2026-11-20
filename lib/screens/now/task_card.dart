@@ -259,12 +259,30 @@ class _CardFace extends StatelessWidget {
             const SizedBox(height: 2),
             Row(
               children: [
-                Text(sub, style: T.mono(c.textDim, size: 12)),
-                const Spacer(),
-                Icon(Icons.arrow_upward_rounded, size: 13, color: c.textDim),
-                Text(' done  ', style: T.mono(c.textDim, size: 11)),
-                Icon(Icons.arrow_downward_rounded, size: 13, color: c.textDim),
-                Text(' later', style: T.mono(c.textDim, size: 11)),
+                Expanded(
+                  child: Text(
+                    sub,
+                    style: T.mono(c.textDim, size: 12),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                // Swipe hints shrink away first when space is tight (large text, small phone).
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.arrow_upward_rounded, size: 13, color: c.textDim),
+                        Text(' done  ', style: T.mono(c.textDim, size: 11)),
+                        Icon(Icons.arrow_downward_rounded, size: 13, color: c.textDim),
+                        Text(' later', style: T.mono(c.textDim, size: 11)),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ],

@@ -16,6 +16,7 @@ import '../../router.dart';
 import '../../services/progress_service.dart';
 import '../../theme/tokens.dart';
 import '../../theme/typography.dart';
+import '../../widgets/entrance.dart';
 import '../../widgets/glass_bottom_bar.dart';
 import '../../widgets/goal_sheets.dart';
 import '../../widgets/screen_header.dart';
@@ -86,7 +87,7 @@ class _WeekScreenState extends ConsumerState<WeekScreen> {
         SliverPadding(
           padding: EdgeInsets.fromLTRB(Space.gutter, Space.l, Space.gutter, GlassBottomBar.reserved(context)),
           sliver: SliverList.list(
-            children: [
+            children: staggered([
               if (isSunday) ...[
                 _Tile(
                   height: 92,
@@ -205,7 +206,7 @@ class _WeekScreenState extends ConsumerState<WeekScreen> {
                     ],
                   ),
                 ),
-            ],
+            ]),
           ),
         ),
       ],
@@ -343,20 +344,26 @@ class _Stat extends StatelessWidget {
             children: [
               Icon(icon, size: 14, color: c.textDim),
               const SizedBox(width: 6),
-              Text(label, style: T.label(c.textDim)),
+              Expanded(
+                child: Text(label, style: T.label(c.textDim), maxLines: 1, overflow: TextOverflow.ellipsis),
+              ),
             ],
           ),
           const Spacer(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(value, style: T.number(c.text, size: 52)),
-              if (unit.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6, left: 2),
-                  child: Text(unit, style: T.h2(c.textDim)),
-                ),
-            ],
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.bottomLeft,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(value, style: T.number(c.text, size: 52)),
+                if (unit.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6, left: 2),
+                    child: Text(unit, style: T.h2(c.textDim)),
+                  ),
+              ],
+            ),
           ),
         ],
       ),
@@ -563,12 +570,16 @@ class _TargetTile extends StatelessWidget {
               ],
             ),
           ),
-          const Spacer(),
-          Text(
-            target.title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: T.small(fg).copyWith(fontWeight: FontWeight.w600),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                target.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: T.small(fg).copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
           ),
         ],
       ),

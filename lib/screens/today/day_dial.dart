@@ -304,7 +304,19 @@ class _DayDialState extends State<DayDial> {
                         child: Center(
                           child: SizedBox.square(
                             dimension: (DialGeometry(size, zoomed: widget.zoomed).capacityRadius - 12) * 2,
-                            child: Center(child: widget.center),
+                            child: Center(
+                              // Scales down inside the ring with large text sizes.
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxWidth:
+                                        (DialGeometry(size, zoomed: widget.zoomed).capacityRadius - 12) * 2,
+                                  ),
+                                  child: widget.center,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),

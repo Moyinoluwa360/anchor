@@ -13,6 +13,7 @@ import '../../services/insights_service.dart';
 import '../../theme/tokens.dart';
 import '../../theme/typography.dart';
 import '../../widgets/buttons.dart';
+import '../../widgets/entrance.dart';
 import '../../widgets/glass_bottom_bar.dart';
 import '../../widgets/screen_header.dart';
 import '../../widgets/sheet.dart';
@@ -86,7 +87,7 @@ class _DoneScreenState extends ConsumerState<DoneScreen> {
         SliverPadding(
           padding: EdgeInsets.fromLTRB(Space.gutter, Space.l, Space.gutter, GlassBottomBar.reserved(context)),
           sliver: SliverList.list(
-            children: [
+            children: staggered([
               // Streak hero.
               Semantics(
                 label: 'Current streak ${streak.current} days. Best ever ${streak.best}.',
@@ -242,7 +243,7 @@ class _DoneScreenState extends ConsumerState<DoneScreen> {
                   ),
                 ],
               ),
-            ],
+            ]),
           ),
         ),
       ],
@@ -460,14 +461,18 @@ class _GroupStack extends StatelessWidget {
       children: [
         Text(_title, style: T.h2(c.text)),
         const SizedBox(height: Space.m),
-        Row(
-          children: [
-            _Num(value: '${group.tasks.length}', label: 'finished'),
-            const SizedBox(width: 22),
-            _Num(value: group.focusHours.toStringAsFixed(1), label: 'focus hours'),
-            const SizedBox(width: 22),
-            _Num(value: '${group.goalsAdvanced}', label: 'goals moved'),
-          ],
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: [
+              _Num(value: '${group.tasks.length}', label: 'finished'),
+              const SizedBox(width: 22),
+              _Num(value: group.focusHours.toStringAsFixed(1), label: 'focus hours'),
+              const SizedBox(width: 22),
+              _Num(value: '${group.goalsAdvanced}', label: 'goals moved'),
+            ],
+          ),
         ),
         const SizedBox(height: Space.l),
         Expanded(child: CardStack(tasks: group.tasks, height: 200)),

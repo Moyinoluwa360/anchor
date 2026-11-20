@@ -116,12 +116,12 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 9.7 Main app builds with flag off; analyze + test green
 
 ## Stage 10 — Polish and testing
-- [ ] 10.1 Motion pass: shared elements, springs, staggered entrances, ≤400 ms, reduced motion
-- [ ] 10.2 Haptics pass
-- [ ] 10.3 Accessibility: text scaling, Semantics labels, contrast check
-- [ ] 10.4 Dark + light pass on every screen
-- [ ] 10.5 Final planner + timer tests, full test run
-- [ ] 10.6 Codemagic final check + TestFlight runbook
+- [x] 10.1 Motion pass: shared elements, springs, staggered entrances, ≤400 ms, reduced motion
+- [x] 10.2 Haptics pass
+- [x] 10.3 Accessibility: text scaling, Semantics labels, contrast check
+- [x] 10.4 Dark + light pass on every screen
+- [x] 10.5 Final planner + timer tests, full test run
+- [~] 10.6 Codemagic final check + TestFlight runbook (config checked; first real build needs the owner's Apple/Codemagic setup)
 
 ## Decisions (where the spec was ambiguous)
 - Project lives at `GIGS/anchor`, separate from Uniflex, with its own git repo.
@@ -257,3 +257,11 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - Live Activity: `LiveActivitiesAppAttributes` (name required by the plugin); lock screen
   shows phase, task, a self-ticking countdown and progress bar; paused shows the frozen
   time. No remote/push updates.
+- Polish (Stage 10): staggered fade-and-lift entrances on Week and Done (≤ 400 ms, off with
+  Reduce Motion); system text size is respected up to 130 % (larger sizes are clamped so the
+  bold layouts hold); a test renders every tab at iPhone SE size, 160 % text and reduced
+  motion in both themes and fails on any overflow (it found and fixed 5).
+- App icon: lemon timer ring with a centre dot on near-black (assets/icon_1024.png, all
+  sizes in AppIcon.appiconset, no alpha). Launch screen is near-black, so no white flash.
+- Not verifiable on Windows: Swift compile, signing, Live Activity, notification sound,
+  haptics and real-device performance. These are first proven by the TestFlight build.
