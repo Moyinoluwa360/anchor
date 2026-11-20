@@ -26,6 +26,9 @@ class AnchorApp extends ConsumerWidget {
       themeMode: mode,
       themeAnimationDuration: const Duration(milliseconds: 300),
       routerConfig: router,
+      // Respect the system text size, within what the bold layouts can hold.
+      builder: (context, child) =>
+          MediaQuery.withClampedTextScaling(minScaleFactor: 1.0, maxScaleFactor: 1.3, child: child!),
     );
   }
 }

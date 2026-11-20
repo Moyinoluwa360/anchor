@@ -21,7 +21,7 @@ abstract final class Palette {
 
   /// Deeper lemon for thin strokes and accent text on the light theme, where
   /// pure lemon on off-white would be too faint to read.
-  static const lemonInk = Color(0xFF7E9E00);
+  static const lemonInk = Color(0xFF5C7400); // 4.8:1 on off-white (WCAG AA)
 
   /// Gentle "getting full" warning. Never red anywhere in the app.
   static const amber = Color(0xFFFFB547);
@@ -93,7 +93,7 @@ class AnchorColors extends ThemeExtension<AnchorColors> {
     accent: Palette.lemon,
     onAccent: Palette.black,
     accentInk: Palette.lemonInk,
-    warn: Color(0xFFE08A00),
+    warn: Color(0xFF995900), // 5:1 on off-white
     glassTint: Color(0x99FFFFFF),
     glassBorder: Color(0x1F000000),
     grain: Color(0x0F000000),

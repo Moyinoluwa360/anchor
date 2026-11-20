@@ -130,7 +130,7 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - Fonts are bundled (assets/google_fonts) and google_fonts runtime fetching is off, so
   the app makes no network calls.
 - Light theme: pure lemon stays the fill colour (buttons, progress); thin lines and
-  accent text use a deeper lemon (#7E9E00) because #D4FF3A on off-white is unreadable.
+  accent text use a deeper lemon (#5C7400, 4.8:1 contrast) because #D4FF3A on off-white is unreadable.
 - Gentle streak rules (1.12, logic in `services/streak_service.dart`): one free rest day
   per Mon–Sun week; other missed days pause the count; after more than 3 paused days in
   a row the next active day quietly starts a new run (best is kept). Today never counts
