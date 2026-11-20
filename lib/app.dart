@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers/settings.dart';
 import 'router.dart';
 import 'services/notification_service.dart';
+import 'services/widget_sync.dart';
 import 'theme/app_theme.dart';
 
 class AnchorApp extends ConsumerWidget {
@@ -15,6 +16,7 @@ class AnchorApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
     // Keep scheduled notifications in step with the data, and route taps.
     ref.listen(notificationSyncProvider, (_, _) {});
+    if (widgetsEnabled) ref.listen(widgetSyncProvider, (_, _) {});
     ref.read(notificationServiceProvider).onTap = (payload) => router.go(routeForPayload(payload));
     return MaterialApp.router(
       title: 'Anchor',

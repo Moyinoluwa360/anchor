@@ -12,6 +12,7 @@ import 'providers/data_providers.dart';
 import 'providers/settings.dart';
 import 'services/notification_service.dart';
 import 'services/timer_service.dart';
+import 'services/widget_sync.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +46,12 @@ Future<void> main() async {
         prefsProvider.overrideWithValue(prefs),
         dbProvider.overrideWithValue(db),
         notificationServiceProvider.overrideWithValue(notifications),
-        timerSideEffectsProvider.overrideWith((ref) => [ref.watch(notificationServiceProvider)]),
+        timerSideEffectsProvider.overrideWith(
+          (ref) => [
+            ref.watch(notificationServiceProvider),
+            if (widgetsEnabled) ref.watch(liveActivityProvider),
+          ],
+        ),
       ],
       child: const AnchorApp(),
     ),

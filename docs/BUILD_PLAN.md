@@ -107,13 +107,13 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 8.5 analyze + test green
 
 ## Stage 9 — Widgets and Live Activities (behind flag)
-- [ ] 9.1 App Group id in one place; data pushed via home_widget
-- [ ] 9.2 Swift WidgetKit extension: Now card, Top 3, Weekly targets
-- [ ] 9.3 Live Activity (lock screen + banner, no Dynamic Island design) via live_activities
-- [ ] 9.4 Extension Info.plist, entitlements (app + extension)
-- [ ] 9.5 Ruby `xcodeproj` script adding the target in Codemagic pre-build, behind `ENABLE_WIDGETS`
-- [ ] 9.6 Apple Developer portal steps documented (App IDs, App Group, capabilities)
-- [ ] 9.7 Main app builds with flag off; analyze + test green
+- [x] 9.1 App Group id in one place; data pushed via home_widget
+- [~] 9.2 Swift WidgetKit extension: Now card, Top 3, Weekly targets (compiles only on Codemagic's Mac)
+- [~] 9.3 Live Activity (lock screen + banner, no Dynamic Island design) via live_activities (same)
+- [x] 9.4 Extension Info.plist, entitlements (app + extension)
+- [x] 9.5 Ruby `xcodeproj` script adding the target in Codemagic pre-build, behind `ENABLE_WIDGETS`
+- [x] 9.6 Apple Developer portal steps documented (App IDs, App Group, capabilities)
+- [x] 9.7 Main app builds with flag off; analyze + test green
 
 ## Stage 10 — Polish and testing
 - [ ] 10.1 Motion pass: shared elements, springs, staggered entrances, ≤400 ms, reduced motion
@@ -241,3 +241,19 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
   transaction; a bad file changes nothing. "Start fresh" clears the sample data.
 - Swapped `file_picker` for Flutter's official `file_selector` (document picker only), so no
   photo-library code ships and the only permission is notifications.
+- Widgets/Live Activity are behind TWO switches: `ENABLE_WIDGETS` in codemagic.yaml (adds
+  the extension) and `--dart-define=WIDGETS=true` (turns on the Dart side), which Codemagic
+  passes only when the extension was actually added. Default off.
+- Before touching the project, Codemagic checks that provisioning profiles for both the app
+  and `.widgets` contain `group.<bundle id>` (`tool/check_widget_signing.py`); if not, it
+  skips widgets and the main app still ships. If the Ruby step fails, the project is reset.
+- `tool/add_widget_extension.rb` was run (twice: idempotent) against a copy of the project
+  with Ruby 3.3 + xcodeproj 1.28 locally: target, sources, base xcconfig, bundle id
+  `$(APP_BUNDLE_ID).widgets`, embed phase placed before "Thin Binary" (avoids the Xcode
+  build cycle), App Group added to Runner.entitlements. No explicit framework references
+  (autolinked), so no SDK version is pinned.
+- The Swift files cannot be compiled on Windows; they were reviewed against the iOS 16.2
+  APIs and are first compiled by Codemagic when ENABLE_WIDGETS is turned on.
+- Live Activity: `LiveActivitiesAppAttributes` (name required by the plugin); lock screen
+  shows phase, task, a self-ticking countdown and progress bar; paused shows the frozen
+  time. No remote/push updates.

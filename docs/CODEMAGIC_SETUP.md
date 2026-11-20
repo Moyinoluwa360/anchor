@@ -59,5 +59,42 @@ different one, change it in `ios/Flutter/AppConfig.xcconfig`,
 
 From then on: `git push` → new build on the phone in about 20–30 minutes.
 
-## 7. Widgets and Live Activity (Stage 9: do these then)
-Added when Stage 9 is built; `ENABLE_WIDGETS` stays `"false"` until then.
+## 7. Widgets and Live Activity (optional; do this after the app is on TestFlight)
+
+The home screen widgets (Now card, Top 3, Weekly targets) and the lock-screen
+timer live in a separate "widget extension". Codemagic only adds it when the
+Apple side below is ready; otherwise it quietly builds the app without it.
+
+**A. Create the App Group**
+1. developer.apple.com → Certificates, Identifiers & Profiles → **Identifiers**.
+2. Top-right filter → **App Groups** → **+** → App Groups → Continue.
+3. Description `Anchor`, Identifier **`group.com.anchorapp.anchor`** → Continue → Register.
+
+**B. Give the app the App Group**
+1. Identifiers → filter **App IDs** → click **Anchor** (`com.anchorapp.anchor`).
+2. Tick **App Groups** → **Configure** → select `group.com.anchorapp.anchor` → Continue → **Save**
+   (confirm the warning: existing profiles become invalid, which is expected).
+
+**C. Register the widget extension**
+1. Identifiers → **+** → App IDs → App → Continue.
+2. Description `Anchor Widgets`, Bundle ID Explicit **`com.anchorapp.anchor.widgets`**.
+3. Tick **App Groups** → Configure → select `group.com.anchorapp.anchor`. Nothing else
+   (Live Activities need no extra capability; the timer updates come from the app).
+4. Continue → Register.
+
+**D. Clear the old profiles**
+1. **Profiles** → delete the App Store profile(s) for `com.anchorapp.anchor` (they were
+   made before the App Group existed). Codemagic creates fresh ones on the next build.
+
+**E. Turn it on**
+1. In `codemagic.yaml` set `ENABLE_WIDGETS: "true"` (or tell Claude to), commit, push.
+2. In the build log, the "Widget extension" step says either
+   - `Widget signing ready.` then `Added AnchorWidgets ...` → widgets are in this build, or
+   - `Skipping widgets this build.` → a step above is missing; the app still ships.
+3. If the build fails while compiling the widgets, set `ENABLE_WIDGETS: "false"` to keep
+   shipping, and send Claude the failing part of the log.
+
+**F. On the iPhone**
+1. Home screen → long-press → **+** → search **Anchor** → pick Now, Top 3 or Weekly targets.
+2. Start a focus timer and lock the phone: the timer shows on the lock screen. If not:
+   iPhone Settings → Anchor → **Live Activities** on.
