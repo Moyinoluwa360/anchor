@@ -18,8 +18,9 @@ different one, change it in `ios/Flutter/AppConfig.xcconfig`,
 2. Choose **App IDs** → **App** → Continue.
 3. Description: `Anchor`. Bundle ID: **Explicit**, `com.anchorapp.anchor`.
 4. Capabilities: tick **Time Sensitive Notifications** (lets the timer alarm
-   break through Focus modes). Leave everything else off for now. Stage 9 adds
-   App Groups, with its own steps below.
+   break through Focus modes). **Required**: the app's entitlements file asks for
+   it, and signing fails without it. Leave everything else off for now. Stage 9
+   adds App Groups, with its own steps below.
 5. Continue → Register.
 
 ## 3. Create the app in App Store Connect

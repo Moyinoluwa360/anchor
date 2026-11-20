@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'screens/done/done_screen.dart';
 import 'screens/goals/goals_screen.dart';
 import 'screens/now/now_screen.dart';
+import 'screens/onboarding/notifications_intro_screen.dart';
+import 'screens/reminders/reminders_screen.dart';
 import 'screens/shell/app_shell.dart';
 import 'screens/today/today_screen.dart';
 import 'screens/week/week_screen.dart';
@@ -18,6 +20,8 @@ abstract final class Routes {
   static const week = '/week';
   static const goals = '/goals';
   static const done = '/done';
+  static const reminders = '/reminders';
+  static const notificationsIntro = '/welcome/notifications';
 }
 
 /// Fade-through for tab roots: no abrupt cuts.
@@ -56,6 +60,21 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      GoRoute(path: Routes.reminders, builder: (c, s) => const RemindersScreen()),
+      GoRoute(
+        path: Routes.notificationsIntro,
+        pageBuilder: (c, s) => const MaterialPage(fullscreenDialog: true, child: NotificationsIntroScreen()),
+      ),
     ],
   );
 });
+
+/// Where a tapped notification should land.
+String routeForPayload(String payload) {
+  if (payload.startsWith('block:')) return Routes.today;
+  return switch (payload) {
+    'done' => Routes.done,
+    'review' => '${Routes.week}?review=1',
+    _ => Routes.now,
+  };
+}

@@ -18,7 +18,7 @@ void main() {
     tester.view.physicalSize = const Size(750, 1334);
     tester.view.devicePixelRatio = 2;
     addTearDown(tester.view.reset);
-    SharedPreferences.setMockInitialValues({});
+    SharedPreferences.setMockInitialValues({'setting.notificationsAsked': true});
     final prefs = await SharedPreferences.getInstance();
     final db = memoryDb();
     await tester.runAsync(() => Seeder(db).seed());

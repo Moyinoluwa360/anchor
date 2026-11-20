@@ -10,6 +10,8 @@ import 'data/database.dart';
 import 'data/seed.dart';
 import 'providers/data_providers.dart';
 import 'providers/settings.dart';
+import 'services/notification_service.dart';
+import 'services/timer_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,9 +35,18 @@ Future<void> main() async {
   }
   await prefs.setBool('seeded', true);
 
+  // Local notifications (timer chime, block alerts, nudges, reminders).
+  final notifications = NotificationService();
+  await notifications.init();
+
   runApp(
     ProviderScope(
-      overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
+      overrides: [
+        prefsProvider.overrideWithValue(prefs),
+        dbProvider.overrideWithValue(db),
+        notificationServiceProvider.overrideWithValue(notifications),
+        timerSideEffectsProvider.overrideWith((ref) => [ref.watch(notificationServiceProvider)]),
+      ],
       child: const AnchorApp(),
     ),
   );

@@ -16,14 +16,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> _shoot(WidgetTester tester, String theme) async {
+Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false}) async {
   GoogleFonts.config.allowRuntimeFetching = false;
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
   tester.view.physicalSize = const Size(1170, 2532);
   tester.view.devicePixelRatio = 3;
   tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
   tester.view.viewPadding = const FakeViewPadding(top: 141, bottom: 102);
-  SharedPreferences.setMockInitialValues({'setting.themeMode': theme});
+  SharedPreferences.setMockInitialValues({'setting.themeMode': theme, 'setting.notificationsAsked': !intro});
   final prefs = await SharedPreferences.getInstance();
   final db = AppDatabase(NativeDatabase.memory());
   await tester.runAsync(() => Seeder(db).seed());
@@ -61,6 +61,14 @@ Future<void> _shoot(WidgetTester tester, String theme) async {
   Future<void> shot(String name) =>
       expectLater(find.byType(AnchorApp), matchesGoldenFile('out/${theme}_$name.png'));
 
+  if (intro) {
+    await settle();
+    await shot('welcome_notifications');
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(seconds: 1));
+    return;
+  }
+
   // Now: check-in card, then the first task card, then the running timer.
   await shot('0a_now_checkin');
   await tester.tap(find.bySemanticsLabel('Skip for now').last);
@@ -85,4 +93,5 @@ Future<void> _shoot(WidgetTester tester, String theme) async {
 void main() {
   testWidgets('dark', (t) => _shoot(t, 'dark'));
   testWidgets('light', (t) => _shoot(t, 'light'));
+  testWidgets('intro', (t) => _shoot(t, 'dark', intro: true));
 }

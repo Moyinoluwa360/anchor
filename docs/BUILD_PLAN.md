@@ -39,16 +39,16 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - [x] 2.12 analyze + test green
 
 ## Stage 3 — Notifications and reminders
-- [ ] 3.1 NotificationService (flutter_local_notifications + timezone), iOS init
-- [ ] 3.2 Friendly permission explanation screen
-- [ ] 3.3 Timer-end notification: custom sound, time-sensitive interruption level
-- [ ] 3.4 Block-start alerts 5 min before
-- [ ] 3.5 Reminders with repeat rules (none, daily, weekdays, weekly) + reminder editor
-- [ ] 3.6 Morning check-in nudge, evening wrap-up, Sunday review
-- [ ] 3.7 Quiet hours (notifications shifted/suppressed)
-- [ ] 3.8 Re-schedule on app start / data change
-- [ ] 3.9 Tests for quiet-hours + repeat-rule logic
-- [ ] 3.10 analyze + test green
+- [x] 3.1 NotificationService (flutter_local_notifications + timezone), iOS init
+- [x] 3.2 Friendly permission explanation screen
+- [x] 3.3 Timer-end notification: custom sound, time-sensitive interruption level
+- [x] 3.4 Block-start alerts 5 min before
+- [x] 3.5 Reminders with repeat rules (none, daily, weekdays, weekly) + reminder editor
+- [x] 3.6 Morning check-in nudge, evening wrap-up, Sunday review
+- [x] 3.7 Quiet hours (notifications shifted/suppressed)
+- [x] 3.8 Re-schedule on app start / data change
+- [x] 3.9 Tests for quiet-hours + repeat-rule logic
+- [x] 3.10 analyze + test green
 
 ## Stage 4 — Today planner
 - [ ] 4.1 24-hour dial CustomPainter: hour ticks, labels, real-time lemon "now" hand
@@ -155,3 +155,16 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - Smallest supported screen is iPhone SE (375×667); the shell smoke test runs at that size.
 - Emoji in the check-in render on iPhone; the Windows screenshot renderer shows them as
   boxes (test-only).
+- Notifications: a pure `NotificationPlanner` decides everything (tested); the service just
+  applies it. Re-planned whenever blocks, reminders, tasks or settings change.
+- Defaults: quiet hours 22:30–07:00; morning nudge 08:00, evening wrap 21:00, Sunday review
+  18:00. Anything landing in quiet hours moves to the end of quiet hours.
+- The focus-timer chime ignores quiet hours (you started it) and is time-sensitive with the
+  bundled `chime.caf`. Both focus-end and break-end alerts are scheduled up front so they
+  fire even if the app is never reopened.
+- Block alerts only for the next 36 h and never for Rest blocks; repeating nudges get
+  priority under iOS's 64-pending limit (we cap at 60).
+- Time-sensitive alerts need the entitlement in `ios/Runner/Runner.entitlements` AND the
+  "Time Sensitive Notifications" capability on the App ID (CODEMAGIC_SETUP step 2.4).
+- Reminders live behind the bell on Today; notification and quiet-hours controls are a
+  sheet (tune icon on Reminders) that the Settings screen will reuse in Stage 8.

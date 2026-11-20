@@ -61,3 +61,13 @@ final todayCheckInProvider = Provider<EnergyCheckIn?>((ref) {
   }
   return null;
 });
+
+/// Today's and tomorrow's blocks (for "starts in 5 minutes" alerts).
+final upcomingBlocksProvider = StreamProvider<List<TimeBlock>>((ref) {
+  final d = ref.watch(todayProvider);
+  return ref.watch(plannerRepoProvider).watchRange(d, addDays(d, 2));
+});
+
+final remindersProvider = StreamProvider<List<Reminder>>(
+  (ref) => ref.watch(journalRepoProvider).watchReminders(),
+);
