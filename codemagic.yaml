@@ -32,11 +32,11 @@ workflows:
       cancel_previous_builds: true
     scripts:
       - name: Check bundle identifier is consistent
-        script: ./tool/check_bundle_id.sh
+        script: bash tool/check_bundle_id.sh
       - name: Get packages
         script: flutter pub get
       - name: Generate database code
-        script: dart run build_runner build
+        script: dart run build_runner build --delete-conflicting-outputs
       - name: Analyze
         script: flutter analyze
       - name: Unit tests
