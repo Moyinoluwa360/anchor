@@ -331,7 +331,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> with SingleTickerProv
   }
 
   void _moreChips(List<Task> rest) {
-    showAnchorSheet<void>(
+    showExeSheet<void>(
       context,
       builder: (ctx) => SheetBody(
         title: 'Not on the dial yet',

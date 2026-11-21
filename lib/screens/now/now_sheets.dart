@@ -30,7 +30,7 @@ class ResetBreak extends StuckChoice {
 /// "Stuck?": shrink the task to a 5-minute starter, swap it for something
 /// easier, or take a 5-minute reset.
 Future<StuckChoice?> showStuckSheet(BuildContext context, Task task, List<Task> easier) {
-  return showAnchorSheet<StuckChoice>(
+  return showExeSheet<StuckChoice>(
     context,
     builder: (_) => _StuckSheet(task: task, easier: easier),
   );
@@ -216,7 +216,7 @@ class _Option extends StatelessWidget {
 
 /// Pick 25/5, 50/10, 90/20 or a custom focus/break length.
 Future<TimerPreset?> showPresetSheet(BuildContext context, TimerPreset current) {
-  return showAnchorSheet<TimerPreset>(context, builder: (_) => _PresetSheet(current: current));
+  return showExeSheet<TimerPreset>(context, builder: (_) => _PresetSheet(current: current));
 }
 
 class _PresetSheet extends StatefulWidget {

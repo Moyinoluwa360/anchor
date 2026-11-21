@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:anchor/data/database.dart';
-import 'package:anchor/models/enums.dart';
-import 'package:anchor/services/timer_logic.dart';
-import 'package:anchor/services/widget_sync.dart';
+import 'package:exe/data/database.dart';
+import 'package:exe/models/enums.dart';
+import 'package:exe/services/timer_logic.dart';
+import 'package:exe/services/widget_sync.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -67,6 +67,6 @@ void main() {
 
   test('widgets are off unless the build asks for them', () {
     expect(widgetsEnabled, isFalse);
-    expect(WidgetKinds.all, ['AnchorNow', 'AnchorTop3', 'AnchorTargets']);
+    expect(WidgetKinds.all, ['ExeNow', 'ExeTop3', 'ExeTargets']);
   });
 }

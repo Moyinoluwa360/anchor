@@ -252,7 +252,7 @@ class _DoneScreenState extends ConsumerState<DoneScreen> {
 
   Future<void> _addWin(BuildContext context) async {
     final ctl = TextEditingController();
-    await showAnchorSheet<void>(
+    await showExeSheet<void>(
       context,
       builder: (ctx) => SheetBody(
         title: 'A big win',

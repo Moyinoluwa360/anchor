@@ -19,7 +19,7 @@ class GoalRingPainter extends CustomPainter {
 
   final double progress;
   final List<Milestone> milestones;
-  final AnchorColors c;
+  final ExeColors c;
 
   /// Orbit rotation in radians (slow drift).
   final double orbit;

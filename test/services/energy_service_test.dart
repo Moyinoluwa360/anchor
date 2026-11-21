@@ -1,7 +1,7 @@
-import 'package:anchor/data/database.dart';
-import 'package:anchor/models/enums.dart';
-import 'package:anchor/services/deck_order.dart';
-import 'package:anchor/services/energy_service.dart';
+import 'package:exe/data/database.dart';
+import 'package:exe/models/enums.dart';
+import 'package:exe/services/deck_order.dart';
+import 'package:exe/services/energy_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

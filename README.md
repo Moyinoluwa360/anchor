@@ -1,4 +1,4 @@
-# Anchor
+# exe
 
 A calm, local-only productivity app for iOS: one thing at a time, tiny first
 steps, energy-aware plans, and progress that is celebrated, never shamed.

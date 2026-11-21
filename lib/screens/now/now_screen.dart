@@ -180,7 +180,7 @@ class _NowScreenState extends ConsumerState<NowScreen> {
     if (mounted) _toast(msg);
   }
 
-  Future<void> _recheck() => showAnchorSheet<void>(
+  Future<void> _recheck() => showExeSheet<void>(
     context,
     builder: (ctx) => Padding(
       padding: const EdgeInsets.fromLTRB(Space.gutter, 0, Space.gutter, Space.xl),

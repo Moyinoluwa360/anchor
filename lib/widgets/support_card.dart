@@ -66,7 +66,7 @@ class SupportCard extends StatelessWidget {
   }
 }
 
-Future<void> showSupportSheet(BuildContext context) => showAnchorSheet<void>(
+Future<void> showSupportSheet(BuildContext context) => showExeSheet<void>(
   context,
   builder: (ctx) {
     final c = ctx.c;

@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart' hide isNull, isNotNull;
-import 'package:anchor/data/seed.dart';
-import 'package:anchor/models/dates.dart';
-import 'package:anchor/models/enums.dart';
+import 'package:exe/data/seed.dart';
+import 'package:exe/models/dates.dart';
+import 'package:exe/models/enums.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:anchor/data/repositories/journal_repository.dart';
+import 'package:exe/data/repositories/journal_repository.dart';
 
 import '../helpers.dart';
 

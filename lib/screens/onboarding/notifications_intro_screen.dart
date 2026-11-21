@@ -72,7 +72,7 @@ class NotificationsIntroScreen extends ConsumerWidget {
                 Text('A gentle tap\non the shoulder.', style: T.display(c.text)),
                 const SizedBox(height: Space.m),
                 Text(
-                  'Anchor only nudges you when it helps. Everything stays on your phone.',
+                  'exe only nudges you when it helps. Everything stays on your phone.',
                   style: T.body(c.textDim),
                 ),
                 const SizedBox(height: Space.xxl),

@@ -12,7 +12,7 @@ String _hm(int m) => '${(m ~/ 60).toString().padLeft(2, '0')}:${(m % 60).toStrin
 
 /// Notification toggles, their times, and quiet hours. Also used inside Settings.
 Future<void> showNotificationSettings(BuildContext context) =>
-    showAnchorSheet<void>(context, builder: (_) => const NotificationSettingsBody());
+    showExeSheet<void>(context, builder: (_) => const NotificationSettingsBody());
 
 class NotificationSettingsBody extends ConsumerStatefulWidget {
   const NotificationSettingsBody({super.key, this.embedded = false});
@@ -38,7 +38,7 @@ class _NotificationSettingsBodyState extends ConsumerState<NotificationSettingsB
   Future<void> _pickTime(int current, ValueChanged<int> onPicked) async {
     var picked = current;
     final c = context.c;
-    await showAnchorSheet<void>(
+    await showExeSheet<void>(
       context,
       builder: (ctx) => SizedBox(
         height: 300,
@@ -124,7 +124,7 @@ class _NotificationSettingsBodyState extends ConsumerState<NotificationSettingsB
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Notifications are off for Anchor. Turn them on in iPhone Settings → Anchor.',
+                  'Notifications are off for exe. Turn them on in iPhone Settings → exe.',
                   style: T.small(c.textDim),
                 ),
               ),

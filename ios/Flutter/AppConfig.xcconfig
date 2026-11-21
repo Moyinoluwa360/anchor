@@ -4,4 +4,4 @@
 //   App Group      group.$(APP_BUNDLE_ID)
 // If you change it, also change BUNDLE_ID in codemagic.yaml and
 // AppConfig.bundleId in lib/app_config.dart (tool/check_bundle_id.sh verifies all three).
-APP_BUNDLE_ID = com.anchorapp.anchor
+APP_BUNDLE_ID = com.exeapp.exe

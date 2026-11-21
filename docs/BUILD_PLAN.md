@@ -1,4 +1,4 @@
-# Anchor — build plan and progress
+# exe — build plan and progress
 
 Spec: [SPEC.md](SPEC.md). Stages are done strictly in order. A stage is ticked only
 when `flutter analyze` is clean and `flutter test` passes. Decisions taken where the
@@ -7,7 +7,7 @@ spec was ambiguous are logged at the bottom.
 Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 
 ## Stage 1 — Foundation
-- [x] 1.1 Project created (`GIGS/anchor`, bundle `com.anchorapp.anchor`), git init
+- [x] 1.1 Project created (`GIGS/anchor`, bundle `com.exeapp.exe`), git init
 - [x] 1.2 Dependencies in pubspec (riverpod, go_router, drift, google_fonts, flutter_local_notifications, timezone, audioplayers, home_widget, live_activities, path_provider, shared_preferences …)
 - [x] 1.3 Folder structure: models, data, providers, screens, widgets, services, theme, assets
 - [x] 1.4 Theme: colour tokens (dark + light), type scale (Space Grotesk / Inter / JetBrains Mono), radii, spacing
@@ -125,7 +125,7 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 
 ## Decisions (where the spec was ambiguous)
 - Project lives at `GIGS/anchor`, separate from Uniflex, with its own git repo.
-- Bundle id `com.anchorapp.anchor`, set in `ios/Flutter/AppConfig.xcconfig`; Dart and
+- Bundle id `com.exeapp.exe`, set in `ios/Flutter/AppConfig.xcconfig`; Dart and
   codemagic.yaml must match (checked by `tool/check_bundle_id.sh` on every build).
 - Fonts are bundled (assets/google_fonts) and google_fonts runtime fetching is off, so
   the app makes no network calls.
@@ -236,7 +236,7 @@ Legend: `[ ]` to do · `[x]` done · `[~]` done with a note (see Decisions)
 - Settings (tune icon on Now): theme (Dark / Light / Match iPhone), default rhythm, focus
   guard, healthy hours 4–12, free rest day, all notification controls, reminders, inbox,
   export / import / start fresh, licences.
-- Backup: one versioned JSON (`anchor-backup`, v1) of every table plus settings, shared via
+- Backup: one versioned JSON (`exe-backup`, v1) of every table plus settings, shared via
   the iOS share sheet. Import validates everything first, then replaces all data in one
   transaction; a bad file changes nothing. "Start fresh" clears the sample data.
 - Swapped `file_picker` for Flutter's official `file_selector` (document picker only), so no

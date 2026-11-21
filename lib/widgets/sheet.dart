@@ -4,7 +4,7 @@ import '../theme/tokens.dart';
 import '../theme/typography.dart';
 
 /// Opens a rounded bottom sheet that grows with the keyboard.
-Future<R?> showAnchorSheet<R>(BuildContext context, {required WidgetBuilder builder, bool full = false}) {
+Future<R?> showExeSheet<R>(BuildContext context, {required WidgetBuilder builder, bool full = false}) {
   return showModalBottomSheet<R>(
     context: context,
     useRootNavigator: true,

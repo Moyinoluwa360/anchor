@@ -1,4 +1,4 @@
-import 'package:anchor/services/timer_logic.dart';
+import 'package:exe/services/timer_logic.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

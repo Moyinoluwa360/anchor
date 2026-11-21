@@ -1,4 +1,4 @@
-# Anchor — product spec (source of truth)
+# exe — product spec (source of truth)
 
 Saved verbatim from the owner's build prompt on 2026-11-20. Progress is tracked in
 [BUILD_PLAN.md](BUILD_PLAN.md).
@@ -7,7 +7,7 @@ Saved verbatim from the owner's build prompt on 2026-11-20. Progress is tracked 
 
 ## Role and goal
 
-You are a senior Flutter engineer and product designer. Build a Flutter app (Dart, latest stable Flutter) called **Anchor**, targeting iOS. It is a personal productivity and time-management app for one user who runs a startup, learns cloud engineering, and does side gigs. The user gets overwhelmed and foggy when everything feels urgent, so the app must reduce overwhelm, make starting effortless, and celebrate progress instead of punishing missed tasks.
+You are a senior Flutter engineer and product designer. Build a Flutter app (Dart, latest stable Flutter) called **exe**, targeting iOS. It is a personal productivity and time-management app for one user who runs a startup, learns cloud engineering, and does side gigs. The user gets overwhelmed and foggy when everything feels urgent, so the app must reduce overwhelm, make starting effortless, and celebrate progress instead of punishing missed tasks.
 
 **Development environment:** the user develops on Windows and has no Mac and no Xcode. The app is built in the cloud with Codemagic, which signs the build and uploads it to TestFlight through App Store Connect. Everything you write must work under that setup: never tell the user to open Xcode, and never depend on a local Mac. Where native iOS files are needed, create them as plain source files in the repository so Codemagic can build them.
 

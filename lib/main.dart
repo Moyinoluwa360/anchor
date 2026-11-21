@@ -53,7 +53,7 @@ Future<void> main() async {
           ],
         ),
       ],
-      child: const AnchorApp(),
+      child: const ExeApp(),
     ),
   );
 }

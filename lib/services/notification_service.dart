@@ -92,7 +92,7 @@ class NotificationService implements TimerSideEffect {
       presentSound: true,
       sound: chime ? _sound : null,
       interruptionLevel: timeSensitive ? InterruptionLevel.timeSensitive : InterruptionLevel.active,
-      threadIdentifier: timeSensitive ? 'timer' : 'anchor',
+      threadIdentifier: timeSensitive ? 'timer' : 'exe',
     ),
   );
 

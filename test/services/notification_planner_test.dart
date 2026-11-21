@@ -1,7 +1,7 @@
-import 'package:anchor/data/database.dart';
-import 'package:anchor/models/enums.dart';
-import 'package:anchor/providers/settings.dart';
-import 'package:anchor/services/notification_planner.dart';
+import 'package:exe/data/database.dart';
+import 'package:exe/models/enums.dart';
+import 'package:exe/providers/settings.dart';
+import 'package:exe/services/notification_planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

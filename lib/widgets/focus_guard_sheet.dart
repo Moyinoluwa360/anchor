@@ -14,7 +14,7 @@ const distractionChips = ['Phone', 'Messages', 'Noise', 'Hunger', 'Worry', 'Tire
 /// Focus guard: a gentle stop at the end of a focus block, and an optional
 /// note on what pulled attention away (saved with the session).
 Future<void> showFocusGuard(BuildContext context, {int? sessionId, required int breakMinutes}) =>
-    showAnchorSheet<void>(
+    showExeSheet<void>(
       context,
       builder: (_) => _FocusGuard(sessionId: sessionId, breakMinutes: breakMinutes),
     );

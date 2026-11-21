@@ -12,7 +12,7 @@ import 'sheet.dart';
 
 /// Pick up to three must-do tasks for today, in order.
 Future<void> showTopThreeSheet(BuildContext context) =>
-    showAnchorSheet<void>(context, builder: (_) => const _TopThree());
+    showExeSheet<void>(context, builder: (_) => const _TopThree());
 
 class _TopThree extends ConsumerStatefulWidget {
   const _TopThree();

@@ -47,7 +47,7 @@ app.*.map.json
 # Widget Preview related
 .widget_preview/
 
-# Anchor
+# exe
 test_screens/out/
 *.log
 ios/Pods/

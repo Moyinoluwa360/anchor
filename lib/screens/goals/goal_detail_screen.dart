@@ -390,7 +390,7 @@ class _TimelinePainter extends CustomPainter {
     required this.milestones,
     required this.now,
   });
-  final AnchorColors c;
+  final ExeColors c;
   final Goal goal;
   final List<Task> done;
   final List<Milestone> milestones;

@@ -12,7 +12,7 @@ class AlarmPlayer {
 
   Future<void> _ensure() async {
     if (_player != null) return;
-    final p = AudioPlayer(playerId: 'anchor-alarm');
+    final p = AudioPlayer(playerId: 'exe-alarm');
     await p.setAudioContext(
       AudioContext(
         iOS: AudioContextIOS(

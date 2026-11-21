@@ -47,7 +47,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       final dir = await getTemporaryDirectory();
       final d = DateTime.now();
       final name =
-          'anchor-backup-${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}.json';
+          'exe-backup-${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}.json';
       final file = File(p.join(dir.path, name));
       await file.writeAsString(BackupService.encode(data));
       if (!mounted) return;
@@ -55,7 +55,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(file.path, mimeType: 'application/json')],
-          subject: 'Anchor backup',
+          subject: 'exe backup',
           sharePositionOrigin: box == null ? null : box.localToGlobal(Offset.zero) & box.size,
         ),
       );
@@ -67,7 +67,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<bool> _confirm(String title, String body, String action) async {
-    final ok = await showAnchorSheet<bool>(
+    final ok = await showExeSheet<bool>(
       context,
       builder: (ctx) => SheetBody(
         title: title,
@@ -91,7 +91,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final file = await openFile(
       acceptedTypeGroups: [
         const XTypeGroup(
-          label: 'Anchor backup',
+          label: 'exe backup',
           extensions: ['json'],
           uniformTypeIdentifiers: ['public.json'],
         ),
@@ -323,14 +323,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       onTap: _startFresh,
                     ),
                     section('ABOUT'),
-                    Text('Anchor $appVersion · One thing at a time.', style: T.mono(c.textDim)),
+                    Text('exe $appVersion · One thing at a time.', style: T.mono(c.textDim)),
                     const SizedBox(height: 4),
                     Text('Made for a calmer head. ${dayLabel(DateTime.now())}.', style: T.small(c.textDim)),
                     const SizedBox(height: Space.m),
                     GestureDetector(
                       onTap: () => showLicensePage(
                         context: context,
-                        applicationName: 'Anchor',
+                        applicationName: 'exe',
                         applicationVersion: appVersion,
                       ),
                       child: Text('Open-source licences', style: T.small(c.accentInk)),

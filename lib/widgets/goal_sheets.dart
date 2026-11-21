@@ -17,7 +17,7 @@ import 'task_editor_sheet.dart';
 
 // Goal editor --------------------------------------------------------------
 
-Future<int?> showGoalEditor(BuildContext context, {Goal? goal, LifeArea? area}) => showAnchorSheet<int>(
+Future<int?> showGoalEditor(BuildContext context, {Goal? goal, LifeArea? area}) => showExeSheet<int>(
   context,
   builder: (_) => _GoalEditor(goal: goal, area: area),
 );
@@ -193,7 +193,7 @@ Offset areaHome(LifeArea a) => _areaHome[a]!;
 // Weekly target editor -----------------------------------------------------
 
 Future<void> showTargetEditor(BuildContext context, {WeeklyTarget? target, required DateTime weekStart}) =>
-    showAnchorSheet<void>(
+    showExeSheet<void>(
       context,
       builder: (_) => _TargetEditor(target: target, weekStart: weekStart),
     );

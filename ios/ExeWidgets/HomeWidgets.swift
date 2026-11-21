@@ -4,36 +4,36 @@ import WidgetKit
 // MARK: - Now card
 
 struct NowWidgetView: View {
-  let entry: AnchorEntry
+  let entry: ExeEntry
 
   var body: some View {
     VStack(alignment: .leading, spacing: 6) {
       HStack(spacing: 6) {
-        Circle().fill(Anchor.lemon).frame(width: 7, height: 7)
+        Circle().fill(Exe.lemon).frame(width: 7, height: 7)
         Text(entry.nowMeta.isEmpty ? "NOW" : entry.nowMeta)
-          .font(Anchor.mono(10))
-          .foregroundColor(Anchor.grey)
+          .font(Exe.mono(10))
+          .foregroundColor(Exe.grey)
           .lineLimit(1)
       }
       Spacer(minLength: 2)
       Text(entry.nowTitle)
-        .font(Anchor.heading(18))
+        .font(Exe.heading(18))
         .foregroundColor(.white)
         .lineLimit(3)
         .minimumScaleFactor(0.8)
       Text(entry.nowStep)
         .font(.system(size: 12, weight: .medium))
-        .foregroundColor(Anchor.lemon)
+        .foregroundColor(Exe.lemon)
         .lineLimit(2)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-    .anchorWidgetBackground()
+    .exeWidgetBackground()
   }
 }
 
-struct AnchorNowWidget: Widget {
+struct ExeNowWidget: Widget {
   var body: some WidgetConfiguration {
-    StaticConfiguration(kind: "AnchorNow", provider: AnchorProvider()) { entry in
+    StaticConfiguration(kind: "ExeNow", provider: ExeProvider()) { entry in
       NowWidgetView(entry: entry)
     }
     .configurationDisplayName("Now")
@@ -45,23 +45,23 @@ struct AnchorNowWidget: Widget {
 // MARK: - Today's top 3
 
 struct Top3WidgetView: View {
-  let entry: AnchorEntry
+  let entry: ExeEntry
 
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
       Text("TODAY'S TOP 3")
-        .font(Anchor.mono(10))
-        .foregroundColor(Anchor.grey)
+        .font(Exe.mono(10))
+        .foregroundColor(Exe.grey)
       if entry.top3.isEmpty {
         Text("Clear deck.")
-          .font(Anchor.heading(18))
+          .font(Exe.heading(18))
           .foregroundColor(.white)
       }
       ForEach(Array(entry.top3.prefix(3).enumerated()), id: \.offset) { i, title in
         HStack(alignment: .firstTextBaseline, spacing: 8) {
           Text("\(i + 1)")
-            .font(Anchor.mono(14, .bold))
-            .foregroundColor(Anchor.lemon)
+            .font(Exe.mono(14, .bold))
+            .foregroundColor(Exe.lemon)
           Text(title)
             .font(.system(size: 13, weight: .semibold))
             .foregroundColor(.white)
@@ -71,13 +71,13 @@ struct Top3WidgetView: View {
       Spacer(minLength: 0)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    .anchorWidgetBackground()
+    .exeWidgetBackground()
   }
 }
 
-struct AnchorTop3Widget: Widget {
+struct ExeTop3Widget: Widget {
   var body: some WidgetConfiguration {
-    StaticConfiguration(kind: "AnchorTop3", provider: AnchorProvider()) { entry in
+    StaticConfiguration(kind: "ExeTop3", provider: ExeProvider()) { entry in
       Top3WidgetView(entry: entry)
     }
     .configurationDisplayName("Top 3")
@@ -89,15 +89,15 @@ struct AnchorTop3Widget: Widget {
 // MARK: - Weekly targets
 
 struct TargetsWidgetView: View {
-  let entry: AnchorEntry
+  let entry: ExeEntry
 
   var body: some View {
     VStack(alignment: .leading, spacing: 9) {
       Text("WEEKLY TARGETS")
-        .font(Anchor.mono(10))
-        .foregroundColor(Anchor.grey)
+        .font(Exe.mono(10))
+        .foregroundColor(Exe.grey)
       if entry.targets.isEmpty {
-        Text("Pick this week's targets in Anchor.")
+        Text("Pick this week's targets in exe.")
           .font(.system(size: 13, weight: .medium))
           .foregroundColor(.white)
       }
@@ -110,13 +110,13 @@ struct TargetsWidgetView: View {
               .lineLimit(1)
             Spacer()
             Text("\(t.p)%")
-              .font(Anchor.mono(12, .bold))
-              .foregroundColor(t.p >= 100 ? Anchor.lemon : .white)
+              .font(Exe.mono(12, .bold))
+              .foregroundColor(t.p >= 100 ? Exe.lemon : .white)
           }
           GeometryReader { g in
             ZStack(alignment: .leading) {
-              Capsule().fill(Anchor.border)
-              Capsule().fill(Anchor.lemon).frame(width: g.size.width * CGFloat(min(max(t.p, 0), 100)) / 100)
+              Capsule().fill(Exe.border)
+              Capsule().fill(Exe.lemon).frame(width: g.size.width * CGFloat(min(max(t.p, 0), 100)) / 100)
             }
           }
           .frame(height: 6)
@@ -125,13 +125,13 @@ struct TargetsWidgetView: View {
       Spacer(minLength: 0)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    .anchorWidgetBackground()
+    .exeWidgetBackground()
   }
 }
 
-struct AnchorTargetsWidget: Widget {
+struct ExeTargetsWidget: Widget {
   var body: some WidgetConfiguration {
-    StaticConfiguration(kind: "AnchorTargets", provider: AnchorProvider()) { entry in
+    StaticConfiguration(kind: "ExeTargets", provider: ExeProvider()) { entry in
       TargetsWidgetView(entry: entry)
     }
     .configurationDisplayName("Weekly targets")

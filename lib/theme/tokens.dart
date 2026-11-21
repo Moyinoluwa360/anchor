@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/enums.dart';
 
-/// Raw palette. Screens never use these directly: they read [AnchorColors]
+/// Raw palette. Screens never use these directly: they read [ExeColors]
 /// from the theme so dark and light both work.
 abstract final class Palette {
   static const black = Color(0xFF0A0A0A);
@@ -29,8 +29,8 @@ abstract final class Palette {
 
 /// Semantic colours, available as `context.c`.
 @immutable
-class AnchorColors extends ThemeExtension<AnchorColors> {
-  const AnchorColors({
+class ExeColors extends ThemeExtension<ExeColors> {
+  const ExeColors({
     required this.bg,
     required this.surface,
     required this.surface2,
@@ -66,7 +66,7 @@ class AnchorColors extends ThemeExtension<AnchorColors> {
   final Color grain;
   final bool isDark;
 
-  static const dark = AnchorColors(
+  static const dark = ExeColors(
     bg: Palette.black,
     surface: Palette.surfaceDark,
     surface2: Palette.surfaceDark2,
@@ -83,7 +83,7 @@ class AnchorColors extends ThemeExtension<AnchorColors> {
     isDark: true,
   );
 
-  static const light = AnchorColors(
+  static const light = ExeColors(
     bg: Palette.offWhite,
     surface: Palette.surfaceLight,
     surface2: Palette.surfaceLight2,
@@ -111,13 +111,13 @@ class AnchorColors extends ThemeExtension<AnchorColors> {
   };
 
   @override
-  AnchorColors copyWith() => this;
+  ExeColors copyWith() => this;
 
   @override
-  AnchorColors lerp(ThemeExtension<AnchorColors>? other, double t) {
-    if (other is! AnchorColors) return this;
+  ExeColors lerp(ThemeExtension<ExeColors>? other, double t) {
+    if (other is! ExeColors) return this;
     Color l(Color a, Color b) => Color.lerp(a, b, t)!;
-    return AnchorColors(
+    return ExeColors(
       bg: l(bg, other.bg),
       surface: l(surface, other.surface),
       surface2: l(surface2, other.surface2),
@@ -161,8 +161,8 @@ abstract final class Motion {
   static const spring = Curves.easeOutBack;
 }
 
-extension AnchorThemeX on BuildContext {
-  AnchorColors get c => Theme.of(this).extension<AnchorColors>()!;
+extension ExeThemeX on BuildContext {
+  ExeColors get c => Theme.of(this).extension<ExeColors>()!;
 
   /// True when the user asked iOS to reduce motion.
   bool get reduceMotion => MediaQuery.of(this).disableAnimations;

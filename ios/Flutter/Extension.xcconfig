@@ -1,4 +1,4 @@
-// Base build settings for the AnchorWidgets extension (added by
+// Base build settings for the ExeWidgets extension (added by
 // tool/add_widget_extension.rb). Gives it Flutter's build name/number and the
 // single bundle id from AppConfig.xcconfig.
 #include "Generated.xcconfig"

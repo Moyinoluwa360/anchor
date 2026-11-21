@@ -1,5 +1,5 @@
-import 'package:anchor/models/dates.dart';
-import 'package:anchor/services/streak_service.dart';
+import 'package:exe/models/dates.dart';
+import 'package:exe/services/streak_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

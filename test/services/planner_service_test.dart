@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:anchor/data/database.dart';
-import 'package:anchor/models/enums.dart';
-import 'package:anchor/services/planner_service.dart';
+import 'package:exe/data/database.dart';
+import 'package:exe/models/enums.dart';
+import 'package:exe/services/planner_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

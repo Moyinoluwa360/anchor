@@ -2,12 +2,12 @@
 // Renders each main screen at iPhone size (390x844 @3x) to PNG for a visual
 // check on Windows. Not part of `flutter test` (lives outside test/).
 // Run:  flutter test test_screens --update-goldens   → PNGs in test_screens/out/
-import 'package:anchor/app.dart';
-import 'package:anchor/data/database.dart';
-import 'package:anchor/data/repositories/journal_repository.dart';
-import 'package:anchor/data/seed.dart';
-import 'package:anchor/providers/data_providers.dart';
-import 'package:anchor/providers/settings.dart';
+import 'package:exe/app.dart';
+import 'package:exe/data/database.dart';
+import 'package:exe/data/repositories/journal_repository.dart';
+import 'package:exe/data/seed.dart';
+import 'package:exe/providers/data_providers.dart';
+import 'package:exe/providers/settings.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false, bool
   await tester.pumpWidget(
     ProviderScope(
       overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
-      child: const AnchorApp(),
+      child: const ExeApp(),
     ),
   );
   for (var i = 0; i < 10; i++) {
@@ -75,7 +75,7 @@ Future<void> _shoot(WidgetTester tester, String theme, {bool intro = false, bool
   }
 
   Future<void> shot(String name) =>
-      expectLater(find.byType(AnchorApp), matchesGoldenFile('out/${theme}_$name.png'));
+      expectLater(find.byType(ExeApp), matchesGoldenFile('out/${theme}_$name.png'));
 
   if (lowDay) {
     await settle();

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# Adds the AnchorWidgets extension (home screen widgets + lock-screen timer
+# Adds the ExeWidgets extension (home screen widgets + lock-screen timer
 # Live Activity) to ios/Runner.xcodeproj without Xcode. Runs on Codemagic
 # only when ENABLE_WIDGETS=true. Safe to run twice.
 #
@@ -8,7 +8,7 @@ require 'xcodeproj'
 
 ROOT = File.expand_path('..', __dir__)
 IOS = File.join(ROOT, 'ios')
-NAME = 'AnchorWidgets'
+NAME = 'ExeWidgets'
 
 bundle_id = File.read(File.join(IOS, 'Flutter', 'AppConfig.xcconfig'))[/^APP_BUNDLE_ID\s*=\s*(\S+)/, 1]
 abort 'APP_BUNDLE_ID not found in ios/Flutter/AppConfig.xcconfig' unless bundle_id
@@ -24,7 +24,7 @@ app = project.targets.find { |t| t.name == 'Runner' } or abort 'Runner target no
 # 1. The extension target.
 ext = project.new_target(:app_extension, NAME, :ios, '16.2', project.products_group, :swift)
 
-# 2. Its source files, Info.plist and entitlements (ios/AnchorWidgets/*).
+# 2. Its source files, Info.plist and entitlements (ios/ExeWidgets/*).
 group = project.main_group.new_group(NAME, NAME)
 swift = Dir[File.join(IOS, NAME, '*.swift')].sort
 abort "No Swift files in ios/#{NAME}" if swift.empty?

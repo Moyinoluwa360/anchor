@@ -25,7 +25,7 @@ struct TimerData {
   let remaining: Int
 
   init(_ attrs: LiveActivitiesAppAttributes) {
-    let d = Anchor.defaults
+    let d = Exe.defaults
     title = d?.string(forKey: attrs.prefixedKey("title")) ?? "Focus"
     phase = d?.string(forKey: attrs.prefixedKey("phase")) ?? "FOCUS"
     minutes = d?.integer(forKey: attrs.prefixedKey("minutes")) ?? 25
@@ -38,7 +38,7 @@ struct TimerData {
   }
 
   var isBreak: Bool { phase == "BREAK" }
-  var accent: Color { isBreak ? .white : Anchor.lemon }
+  var accent: Color { isBreak ? .white : Exe.lemon }
   var pausedText: String { String(format: "%02d:%02d", remaining / 60, remaining % 60) }
 }
 
@@ -48,13 +48,13 @@ struct TimerLiveActivity: Widget {
   var body: some WidgetConfiguration {
     ActivityConfiguration(for: LiveActivitiesAppAttributes.self) { context in
       LockScreenTimer(data: TimerData(context.attributes))
-        .activityBackgroundTint(Anchor.black)
-        .activitySystemActionForegroundColor(Anchor.lemon)
+        .activityBackgroundTint(Exe.black)
+        .activitySystemActionForegroundColor(Exe.lemon)
     } dynamicIsland: { context in
       let data = TimerData(context.attributes)
       return DynamicIsland {
         DynamicIslandExpandedRegion(.leading) {
-          Text(data.phase).font(Anchor.mono(12, .bold)).foregroundColor(data.accent)
+          Text(data.phase).font(Exe.mono(12, .bold)).foregroundColor(data.accent)
         }
         DynamicIslandExpandedRegion(.trailing) {
           countdown(data, size: 22)
@@ -76,10 +76,10 @@ struct TimerLiveActivity: Widget {
 @ViewBuilder
 private func countdown(_ data: TimerData, size: CGFloat) -> some View {
   if data.paused {
-    Text(data.pausedText).font(Anchor.mono(size, .bold)).foregroundColor(.white)
+    Text(data.pausedText).font(Exe.mono(size, .bold)).foregroundColor(.white)
   } else {
     Text(timerInterval: data.start...data.end, countsDown: true)
-      .font(Anchor.mono(size, .bold))
+      .font(Exe.mono(size, .bold))
       .monospacedDigit()
       .foregroundColor(.white)
       .multilineTextAlignment(.trailing)
@@ -94,7 +94,7 @@ struct LockScreenTimer: View {
       HStack(alignment: .center, spacing: 12) {
         VStack(alignment: .leading, spacing: 4) {
           Text("\(data.phase) · \(data.minutes) MIN\(data.paused ? " · PAUSED" : "")")
-            .font(Anchor.mono(11, .medium))
+            .font(Exe.mono(11, .medium))
             .foregroundColor(data.accent)
           Text(data.isBreak ? "Step away. Breathe." : data.title)
             .font(.system(size: 16, weight: .bold))
@@ -106,7 +106,7 @@ struct LockScreenTimer: View {
           .frame(maxWidth: 140, alignment: .trailing)
       }
       if data.paused {
-        Capsule().fill(Anchor.border).frame(height: 6)
+        Capsule().fill(Exe.border).frame(height: 6)
       } else {
         ProgressView(timerInterval: data.start...data.end, countsDown: true) {
           EmptyView()

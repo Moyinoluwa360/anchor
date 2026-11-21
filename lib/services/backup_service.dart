@@ -23,7 +23,7 @@ class ImportResult {
 /// Whole-app backup as one JSON file: every table plus settings. Import
 /// replaces everything, inside one transaction (all or nothing).
 abstract final class BackupService {
-  static const format = 'anchor-backup';
+  static const format = 'exe-backup';
   static const version = 1;
 
   static Map<String, Insertable Function(Map<String, dynamic>)> _readers(AppDatabase db) => {
@@ -65,11 +65,11 @@ abstract final class BackupService {
       throw BackupException('That file is not valid JSON.');
     }
     if (raw is! Map || raw['format'] != format) {
-      throw BackupException('That file is not an Anchor backup.');
+      throw BackupException('That file is not an exe backup.');
     }
     final v = raw['version'];
     if (v is! int || v > version) {
-      throw BackupException('This backup is from a newer version of Anchor. Update the app first.');
+      throw BackupException('This backup is from a newer version of exe. Update the app first.');
     }
     final tables = raw['tables'];
     if (tables is! Map) throw BackupException('The backup has no data in it.');

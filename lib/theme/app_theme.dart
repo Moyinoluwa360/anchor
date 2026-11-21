@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'tokens.dart';
 
 abstract final class AppTheme {
-  static ThemeData dark() => _build(AnchorColors.dark, Brightness.dark);
-  static ThemeData light() => _build(AnchorColors.light, Brightness.light);
+  static ThemeData dark() => _build(ExeColors.dark, Brightness.dark);
+  static ThemeData light() => _build(ExeColors.light, Brightness.light);
 
-  static ThemeData _build(AnchorColors c, Brightness b) {
+  static ThemeData _build(ExeColors c, Brightness b) {
     final scheme = ColorScheme(
       brightness: b,
       primary: c.accent,

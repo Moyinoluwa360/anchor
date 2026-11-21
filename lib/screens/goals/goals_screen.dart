@@ -242,7 +242,7 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> with SingleTickerProv
 /// Faint stars, and hairlines joining goals in the same life area.
 class _SkyPainter extends CustomPainter {
   _SkyPainter({required this.c, required this.goals, required this.pos});
-  final AnchorColors c;
+  final ExeColors c;
   final List<Goal> goals;
   final Offset Function(Goal) pos;
 

@@ -78,7 +78,7 @@ class _HeatPainter extends CustomPainter {
     required this.labelW,
     required this.now,
   });
-  final AnchorColors c;
+  final ExeColors c;
   final Map<DateTime, int> counts;
   final DateTime start;
   final int weeks;
@@ -265,7 +265,7 @@ class _CardStackState extends State<CardStack> {
   }
 }
 
-Future<void> showDaySheet(BuildContext context, DateTime day, List<Task> tasks) => showAnchorSheet<void>(
+Future<void> showDaySheet(BuildContext context, DateTime day, List<Task> tasks) => showExeSheet<void>(
   context,
   builder: (ctx) {
     final c = ctx.c;
@@ -310,7 +310,7 @@ class _TrendPainter extends CustomPainter {
   _TrendPainter({required this.values, required this.c, this.maxY});
   final List<double?> values;
   final double? maxY;
-  final AnchorColors c;
+  final ExeColors c;
 
   @override
   void paint(Canvas canvas, Size size) {

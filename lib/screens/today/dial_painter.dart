@@ -51,7 +51,7 @@ class DialGeometry {
   Offset point(double angle, double radius) => center + Offset(math.sin(angle), -math.cos(angle)) * radius;
 }
 
-Color arcColor(AnchorColors c, BlockType t) => switch (t) {
+Color arcColor(ExeColors c, BlockType t) => switch (t) {
   BlockType.focus => c.accent,
   BlockType.admin => c.text.withValues(alpha: 0.55),
   BlockType.fixed => c.text.withValues(alpha: 0.9),
@@ -71,7 +71,7 @@ class DialPainter extends CustomPainter {
     this.ghost,
   });
 
-  final AnchorColors c;
+  final ExeColors c;
   final DateTime day;
   final DialWindow window;
   final DateTime now;

@@ -144,7 +144,7 @@ class Highlights extends Table {
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'anchor'));
+  AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'exe'));
 
   @override
   int get schemaVersion => 1;

@@ -26,7 +26,7 @@ Future<BlockSheetResult?> showBlockEditor(
   DateTime? end,
   int? taskId,
 }) {
-  return showAnchorSheet<BlockSheetResult>(
+  return showExeSheet<BlockSheetResult>(
     context,
     builder: (_) => _BlockEditor(block: block, start: start, end: end, taskId: taskId),
   );

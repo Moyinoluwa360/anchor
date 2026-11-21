@@ -21,11 +21,11 @@ import 'timer_service.dart';
 /// ENABLE_WIDGETS). Without it, none of this code runs.
 const widgetsEnabled = bool.fromEnvironment('WIDGETS');
 
-/// Widget kinds; must match the Swift `kind` strings in ios/AnchorWidgets.
+/// Widget kinds; must match the Swift `kind` strings in ios/ExeWidgets.
 abstract final class WidgetKinds {
-  static const now = 'AnchorNow';
-  static const top3 = 'AnchorTop3';
-  static const targets = 'AnchorTargets';
+  static const now = 'ExeNow';
+  static const top3 = 'ExeTop3';
+  static const targets = 'ExeTargets';
   static const all = [now, top3, targets];
 }
 
@@ -128,7 +128,7 @@ final widgetSyncProvider = NotifierProvider<WidgetSync, int>(WidgetSync.new);
 class LiveActivityTimer implements TimerSideEffect {
   final _la = LiveActivities();
   bool _ready = false;
-  static const _activityId = 'anchor-focus-timer';
+  static const _activityId = 'exe-focus-timer';
 
   Future<void> _init() async {
     if (_ready) return;
@@ -136,7 +136,7 @@ class LiveActivityTimer implements TimerSideEffect {
     _ready = true;
   }
 
-  /// Data the Swift view reads (see ios/AnchorWidgets/TimerLiveActivity.swift).
+  /// Data the Swift view reads (see ios/ExeWidgets/TimerLiveActivity.swift).
   static Map<String, dynamic> payload(FocusTimerState s, String? taskTitle, DateTime now) {
     final isBreak = s.phase == TimerPhase.breakTime;
     final end = s.isPaused ? now.add(s.remaining(now)) : s.endsAt!;

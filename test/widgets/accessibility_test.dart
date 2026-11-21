@@ -1,7 +1,7 @@
-import 'package:anchor/app.dart';
-import 'package:anchor/data/seed.dart';
-import 'package:anchor/providers/data_providers.dart';
-import 'package:anchor/providers/settings.dart';
+import 'package:exe/app.dart';
+import 'package:exe/data/seed.dart';
+import 'package:exe/providers/data_providers.dart';
+import 'package:exe/providers/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,7 +33,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [prefsProvider.overrideWithValue(prefs), dbProvider.overrideWithValue(db)],
-          child: const AnchorApp(),
+          child: const ExeApp(),
         ),
       );
       Future<void> settle() async {

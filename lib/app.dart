@@ -7,8 +7,8 @@ import 'services/notification_service.dart';
 import 'services/widget_sync.dart';
 import 'theme/app_theme.dart';
 
-class AnchorApp extends ConsumerWidget {
-  const AnchorApp({super.key});
+class ExeApp extends ConsumerWidget {
+  const ExeApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +19,7 @@ class AnchorApp extends ConsumerWidget {
     if (widgetsEnabled) ref.listen(widgetSyncProvider, (_, _) {});
     ref.read(notificationServiceProvider).onTap = (payload) => router.go(routeForPayload(payload));
     return MaterialApp.router(
-      title: 'Anchor',
+      title: 'exe',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),

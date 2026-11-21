@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:anchor/data/database.dart';
-import 'package:anchor/data/seed.dart';
-import 'package:anchor/providers/settings.dart';
-import 'package:anchor/services/backup_service.dart';
+import 'package:exe/data/database.dart';
+import 'package:exe/data/seed.dart';
+import 'package:exe/providers/settings.dart';
+import 'package:exe/services/backup_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -49,21 +49,21 @@ void main() {
     await a.close();
   });
 
-  test('rejects files that are not Anchor backups, leaving data untouched', () async {
+  test('rejects files that are not exe backups, leaving data untouched', () async {
     final a = memoryDb();
     await Seeder(a, now: now).seed();
     final before = await counts(a);
     await expectLater(BackupService.import(a, 'not json'), throwsA(isA<BackupException>()));
     await expectLater(BackupService.import(a, jsonEncode({'hello': 1})), throwsA(isA<BackupException>()));
     await expectLater(
-      BackupService.import(a, jsonEncode({'format': 'anchor-backup', 'version': 99, 'tables': {}})),
+      BackupService.import(a, jsonEncode({'format': 'exe-backup', 'version': 99, 'tables': {}})),
       throwsA(isA<BackupException>()),
     );
     await expectLater(
       BackupService.import(
         a,
         jsonEncode({
-          'format': 'anchor-backup',
+          'format': 'exe-backup',
           'version': 1,
           'tables': {
             'goals': [

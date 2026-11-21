@@ -82,7 +82,7 @@ class CaptureButton extends ConsumerWidget {
 
 /// Quick capture: type, hit return, gone. Sorting happens later.
 Future<void> showBrainDump(BuildContext context) =>
-    showAnchorSheet<void>(context, builder: (_) => const _BrainDumpSheet());
+    showExeSheet<void>(context, builder: (_) => const _BrainDumpSheet());
 
 class _BrainDumpSheet extends ConsumerStatefulWidget {
   const _BrainDumpSheet();

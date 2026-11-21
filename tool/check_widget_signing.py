@@ -4,7 +4,7 @@ extension, and both include the shared App Group. Run on Codemagic before
 adding the extension, so a missing Apple Developer setup never breaks the
 main app build (it just ships without widgets).
 
-    python3 tool/check_widget_signing.py com.anchorapp.anchor
+    python3 tool/check_widget_signing.py com.exeapp.exe
 """
 import glob
 import os

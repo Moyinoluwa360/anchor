@@ -148,7 +148,7 @@ Future<void> showReminderEditor(
   String? title,
   DateTime? at,
 }) {
-  return showAnchorSheet<void>(
+  return showExeSheet<void>(
     context,
     builder: (_) => _ReminderEditor(reminder: reminder, taskId: taskId, title: title, at: at),
   );
